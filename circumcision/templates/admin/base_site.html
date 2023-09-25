@@ -1,0 +1,10 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | Your Custom Text{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Your Custom Text</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
