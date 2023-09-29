@@ -1,0 +1,16 @@
+# Ignore the SQLite database file
+*.sqlite3
+
+# Ignore all .pyc, .pyo, .pyd files
+__pycache__/
+*.py[cod]
+
+# Ignore all .env files
+*.env
+
+# Ignore media uploaded by users
+media/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
