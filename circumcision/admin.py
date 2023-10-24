@@ -1,11 +1,12 @@
 from django.contrib import admin
-from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit
+from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit,Tribe,Religion
 
 # Register your models here.
 
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'client_phone_number', 'district_of_residence', 'nin', 'age','marital_status', 'next_of_kin_name', 'next_of_kin_phone_number')
     search_fields = ('first_name', 'last_name', 'client_phone_number', 'district_of_residence', 'nin', 'age','marital_status', 'next_of_kin_name', 'next_of_kin_phone_number')
+    
 
 # Register the Client model with the admin site
 admin.site.register(Client, ClientAdmin)
@@ -63,3 +64,15 @@ class FollowUpVisitAdmin(admin.ModelAdmin):
 
 admin.site.register(FollowUpVisit, FollowUpVisitAdmin)
 
+
+class TribeAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+    search_fields = ('name',)
+
+admin.site.register(Tribe,TribeAdmin)
+
+class ReligionAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+    search_fields = ('name',)
+
+admin.site.register(Religion,ReligionAdmin)

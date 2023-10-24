@@ -23,7 +23,9 @@ class Client(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     nin = models.CharField(max_length=255, verbose_name='National ID Number')
-    age = models.PositiveIntegerField()
+    age = models.PositiveIntegerField(null=True, blank=True)
+   
+
     
     EDUCATION_CHOICES = [
         ('none', 'None'),
@@ -45,14 +47,14 @@ class Client(models.Model):
     ]
     marital_status = models.CharField(max_length=50, choices=MARITAL_STATUS_CHOICES)
     
-    district_of_residence = models.CharField(max_length=255)
+    district_of_residence = models.CharField(max_length=255,null=True, blank=True)
     sub_county = models.CharField(max_length=255)
     parish = models.CharField(max_length=255)
     village = models.CharField(max_length=255)
     
-    client_phone_number = models.CharField(max_length=15)
+    client_phone_number = models.CharField(max_length=15,null=True, blank=True)
     next_of_kin_name = models.CharField(max_length=255)
-    next_of_kin_phone_number = models.CharField(max_length=15)
+    next_of_kin_phone_number = models.CharField(max_length=15,null=True, blank=True)
  
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
