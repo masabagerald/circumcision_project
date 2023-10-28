@@ -79,6 +79,21 @@
 <hr>
 
 <h2>Enter New Client Information</h2>
+{% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>There were errors in your submission:</strong>
+        <ul>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li>{{ field }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
 <form action="/add_client/" method="post">
     {% csrf_token %}
     
@@ -97,7 +112,7 @@
 
     <label for="education_level">Education Level:</label>
     <select id="education_level" name="education_level">
-        {% for value, display in Client.EDUCATION_CHOICES %}
+        {% for value, display in education_choices %}
             <option value="{{ value }}">{{ display }}</option>
         {% endfor %}
     </select>
@@ -118,7 +133,7 @@
 
     <label for="marital_status">Marital Status:</label>
     <select id="marital_status" name="marital_status">
-        {% for value, display in Client.MARITAL_STATUS_CHOICES %}
+        {% for value, display in marital_status %}
             <option value="{{ value }}">{{ display }}</option>
         {% endfor %}
     </select>

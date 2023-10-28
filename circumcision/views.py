@@ -22,15 +22,16 @@ def list_clients(request):
 def client_regsitration(request):
     religions = Religion.objects.all()
     tribes = Tribe.objects.all()
+   
 
-    return render(request, 'client_registration.html', {'religions':religions,'tribes':tribes})
+    return render(request, 'client_registration.html', {'religions':religions,'tribes':tribes,'education_choices': Client.EDUCATION_CHOICES,'marital_status':Client.MARITAL_STATUS_CHOICES})
 
 def add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
             form.save()  # This saves the data to the database.
-            return redirect('some-view-name')  # Redirect to a success page or listing page.
+            return redirect('list_clients')  # Redirect to a success page or listing page.
     else:
         form = ClientForm()
 
