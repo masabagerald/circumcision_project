@@ -1,0 +1,163 @@
+{% extends 'base.html' %} <!-- Replace with your base template -->
+
+{% block content %}
+<style>
+    /* Custom styles for a more appealing look */
+    .small-jumbotron {
+        padding: 1rem 1rem; /* Adjusted padding to make jumbotron smaller */
+        background-color: #e9ecef; /* A soft, neutral background color */
+        border-radius: 0.3rem; /* Rounded corners */
+        margin-bottom: 1rem; /* Space below jumbotron */
+    }
+    .card-header {
+        background-color: #a7a9aa; /* A pleasant blue header background */
+        color: white; /* White text for contrast */
+    }
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* A subtle shadow for depth */
+        margin-bottom: 1rem; /* Space below each card */
+    }
+    .card-title {
+        color: #333;
+        font-size: 1.2rem; /* Reduced from 1.5rem to 1.2rem for a smaller header */
+        margin-bottom: 0.5rem; /* Adjust the bottom margin if necessary */
+    }
+    .card-body {
+    padding: 1rem; /* Reduced from 2rem to 1rem for less internal space */
+    }
+
+    .action-link {
+        display: inline-block;
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: #28a745; /* A vibrant green for actions */
+        color: white;
+        border-radius: 0.25rem; /* Rounded corners for buttons */
+        text-decoration: none; /* Remove underline from links */
+    }
+    .action-link:hover {
+        background-color: #218838; /* A slightly darker green on hover */
+    }
+    /* Additional colors for other actions if needed */
+    .action-link-secondary {
+        background-color: #17a2b8; /* A calming blue for secondary actions */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="jumbotron small-jumbotron">
+        <h6 class="display-4">{{ client}}</h6>
+        <a href="" class="action-link">Edit Profile</a>
+        <a href="" class="action-link">Schedule Appointment</a>
+        <a href="" class="action-link-secondary">Send Message</a>
+    </div>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-6">
+
+            <!-- Profile section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Profile</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ client.full_name }}</p>
+                    <p><strong>Phone Number:</strong> {{ client.client_phone_number }}</p>
+                    <p><strong>District:</strong> {{ client.distict_of_residence }}</p>
+                    <!-- ... add other details as needed -->
+                </div>
+            </div>
+
+            <!-- Recent visits section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Recent Visits</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for visit in patient.visits %}
+                        <li><strong>Date:</strong> {{ visit.date }}, <strong>Reason:</strong> {{ visit.reason }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Medical history section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Medical History</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for event in patient.medical_history %}
+                        <li><strong>Date:</strong> {{ event.date }}, <strong>Event:</strong> {{ event.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-6">
+
+            <!-- Medications section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Medications</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for med in patient.medications %}
+                        <li><strong>Name:</strong> {{ med.name }}, <strong>Dosage:</strong> {{ med.dosage }}, <strong>Frequency:</strong> {{ med.frequency }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Billing and insurance section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Billing & Insurance</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Insurance Provider:</strong> {{ patient.insurance_provider }}</p>
+                    <p><strong>Outstanding Balance:</strong> {{ patient.balance }}</p>
+                    <!-- ... add other billing and insurance details as needed -->
+                </div>
+            </div>
+
+            <!-- Upcoming appointments section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for appointment in patient.upcoming_appointments %}
+                        <li><strong>Date:</strong> {{ appointment.date }}, <strong>Reason:</strong> {{ appointment.reason }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Messages & Notifications section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Messages & Notifications</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for message in patient.messages %}
+                        <li><strong>Date:</strong> {{ message.date }}, <strong>Message:</strong> {{ message.content }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

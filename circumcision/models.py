@@ -24,6 +24,10 @@ class Client(models.Model):
     last_name = models.CharField(max_length=255)
     nin = models.CharField(max_length=255, verbose_name='National ID Number')
     age = models.PositiveIntegerField(null=True, blank=True)
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
    
 
     

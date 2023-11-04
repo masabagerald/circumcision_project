@@ -11,6 +11,7 @@ from circumcision.forms import ClientForm ,RegisterForm
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 
 
 # Create your views here.
@@ -58,6 +59,12 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def patient_dashbord(request,client_id):
+    client = get_object_or_404(Client, id=client_id)
+   
+    return render(request, 'clients\clients_dashboard.html',{'client': client})
 
 
 

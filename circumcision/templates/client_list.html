@@ -13,8 +13,9 @@
             <thead class="bg-light">
               <tr>
                 <th scope="col" class="border-0">#</th>
-                <th scope="col" class="border-0">Name</th>
-                <th scope="col" class="border-0">Address</th>
+                <th scope="col" class="border-0">First Name</th>
+                <th scope="col" class="border-0">Last Name</th>
+                <th scope="col" class="border-0">NIN</th>
                 <th scope="col" class="border-0">Phone</th>
                 <th scope="col" class="border-0">Action</th>
                
@@ -26,10 +27,14 @@
                 {% for client in clients %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{{ client.name }}</td>
-                  <td>{{ client.address }}</td>
-                  <td>{{ client.phone_number }}</td>
-                  <td><a href="" class="btn btn-primary">Send SMS</a></td>
+                  <td>{{ client.first_name}}</td>
+                  <td>{{ client.last_name }}</td>
+                  <td>{{ client.nin }}</td>
+                  <td>{{client.client_phone_number}}</td>
+                  <td>
+                    <a href="" class="btn btn-primary">Send SMS</a>
+                    <a href="{% url 'client_dashboard' client.id %}" class="btn btn-primary">Patients Dashboard</a>
+                  </td>
                   <!-- Add other fields as needed -->
                 </tr>
               {% endfor %}

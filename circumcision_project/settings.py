@@ -133,3 +133,4 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = '/'  # Redirect to home after login by default.
 
+LOGIN_URL = 'login'
