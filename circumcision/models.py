@@ -148,10 +148,12 @@ class CircumcisionProcedure(models.Model):
     
     # Section E: Circumcision Procedure
     date_of_circumcision = models.DateField(null=True, blank=True)
+    start_time = models.TimeField(null=True)   
+    end_time =  models.TimeField(null=True)
+    
     local_anesthesia_lignocaine = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     local_anesthesia_bupivicaine = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    emla_cream_used = models.BooleanField(default=False)  
-    
+    emla_cream_used = models.BooleanField(default=False)    
     
     procedure_type = models.ForeignKey(ProcedureType, on_delete=models.CASCADE)
     other_procedure_type = models.CharField(max_length=255, null=True, blank=True)  # if procedure_type is 'other'

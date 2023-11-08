@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,list_clients,client_regsitration,add_client,register,logout_view,patient_dashbord
+from .views import index,list_clients,client_regsitration,add_client,register,logout_view,patient_dashbord,procedure_form
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('register/', register, name='register'),
     path('clients/<int:client_id>/dashboard/', patient_dashbord, name='client_dashboard'),
+
+    path('<int:client_id>/procedure-form', procedure_form, name='procedure_form'),
 
     
 

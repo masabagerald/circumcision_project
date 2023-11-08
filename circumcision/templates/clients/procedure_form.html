@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .form-container .card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  .form-container p {
+    padding: 0.5rem;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .form-container input,
+  .form-container select,
+  .form-container textarea {
+    width: 95%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+</style>
+
+<div class="container mt-5">
+  <!-- Card container -->
+  <div class="card form-container">
+    <div class="card-header bg-primary text-white">
+      <h6>Circumcision Procedure Form</h>
+    </div>
+    <div class="card-body">
+      <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

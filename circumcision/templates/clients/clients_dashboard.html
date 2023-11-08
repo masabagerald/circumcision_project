@@ -49,6 +49,19 @@
         <h6 class="display-4">{{ client}}</h6>
         <a href="" class="action-link">Edit Profile</a>
         <a href="" class="action-link">Schedule Appointment</a>
+        <a href="" class="action-link" data-bs-toggle="modal" data-bs-target="#addVisitModal">Add Visit</a>
+      
+        <!-- Your Django template -->
+      
+        <a href="{% url 'procedure_form' client.id  %}" class="btn btn-primary" role="button">
+            Go to Procedure Form
+        </a>
+
+     
+  
+        <!-- Button trigger modal -->
+
+  
         <a href="" class="action-link-secondary">Send Message</a>
     </div>
 
@@ -160,4 +173,71 @@
     </div>
 </div>
 
+
+
+<div class="modal fade" id="addprocedureModal" tabindex="-1" aria-labelledby="addVisitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addVisitModalLabel">Add Visit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal form content -->
+          <form id="addVisitForm">
+            <div class="mb-3">
+              <label for="visitDate" class="form-label">Date</label>
+              <input type="date" class="form-control" id="visitDate" name="visitDate" required>
+            </div>
+            <div class="mb-3">
+              <label for="visitType" class="form-label">Visit Type</label>
+              <select class="form-select" id="visitType" name="visitType" required>
+                <option selected>Select Type</option>
+                <option value="Routine Checkup">Routine Checkup</option>
+                <option value="Follow-up">Follow-up</option>
+                <option value="Consultation">Consultation</option>
+                <!-- Add other visit types as needed -->
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="addVisitForm">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="circumcisionProcedureModal" tabindex="-1" role="dialog" aria-labelledby="circumcisionProcedureModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="circumcisionProcedureModalLabel">Circumcision Procedure</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Place the content of your circumcision procedure form here -->
+          <!-- It should be structured similarly to the image you provided -->
+          <!-- Example of a form field: -->
+          <form>
+            <!-- replicate the form as per your image here -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
 {% endblock %}
+
+<!-- Modal -->
+
+  

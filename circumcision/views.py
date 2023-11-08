@@ -1,12 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 
-from circumcision.models import Client
-from circumcision.models import Surgery
-from circumcision.models import FollowUpVisit
-from circumcision.models import Religion
-from circumcision.models import Tribe
-from circumcision.forms import ClientForm ,RegisterForm
+from circumcision.models import Client,Surgery,FollowUpVisit,Religion,Tribe,CircumcisionProcedure
+
+
+from circumcision.forms import ClientForm ,RegisterForm,CircumcisionProcedureForm
 
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login,logout
@@ -71,3 +69,33 @@ def patient_dashbord(request,client_id):
 def logout_view(request):
     logout(request)
     return redirect('/index')
+
+
+def procedure_form(request,client_id):
+    if request.method == 'POST':
+        form = CircumcisionProcedureForm(request.POST)
+        client = get_object_or_404(Client, id=client_id)
+        if form.is_valid():
+           
+            
+                circumcision_procedure = CircumcisionProcedure(
+                client = client,
+                date_of_circumcision=form.cleaned_data['date_of_circumcision'],
+                start_time=form.cleaned_data['start_time'],
+                end_time=form.cleaned_data['end_time'],
+                local_anesthesia=form.cleaned_data['local_anesthesia'],
+                type_of_circumcision=form.cleaned_data['type_of_circumcision'],
+                ring_size=form.cleaned_data['ring_size'],
+                name_of_circumciser=form.cleaned_data['name_of_circumciser'],
+                adverse_events=form.cleaned_data['adverse_events'],
+                adverse_event_details=form.cleaned_data['adverse_event_details'],
+                # ... populate other fields ...
+            )
+            # Save the new instance to the database
+                circumcision_procedure.save()
+                return redirect('patient_dashbord',client_id=client.id)  # Replace with the name of your success page
+    else:
+        form = CircumcisionProcedureForm()
+
+    return render(request, 'clients\procedure_form.html', {'form': form})
+
