@@ -1,5 +1,5 @@
 from django import forms
-from .models import Client
+from .models import Client,ProcedureType,AdverseEvent,Anesthesia
 from django.contrib.auth.models import User
 
 class ClientForm(forms.ModelForm):
@@ -45,17 +45,27 @@ class CircumcisionProcedureForm(forms.Form):
     date_of_circumcision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     start_time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     end_time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    local_anesthesia = forms.CharField(max_length=100)
-    type_of_circumcision = forms.ChoiceField(choices=[('dorsal_slit', 'Dorsal slit'), ('forceps_guided', 'Forceps guided'), ('sleeve', 'Sleeve'), ('other', 'Other')])
+    local_anesthesia = forms.ModelMultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        queryset=Anesthesia.objects.all(),
+        label="Local Anesthesia"
+    )
+    procedure_type = forms.ModelChoiceField(
+        queryset=ProcedureType.objects.all(),
+        label='Procedure Type',
+        empty_label="Select Procedure Type"
+    ) 
+   # type_of_circumcision = forms.ChoiceField(choices=[('dorsal_slit', 'Dorsal slit'), ('forceps_guided', 'Forceps guided'), ('sleeve', 'Sleeve'), ('other', 'Other')])
     ring_size = forms.IntegerField(required=False, min_value=1, max_value=100)  # adjust the range as needed
     name_of_circumciser = forms.CharField(max_length=100)
     adverse_events = forms.BooleanField(required=False)
     adverse_event_details = forms.CharField(widget=forms.Textarea, required=False)
     # ... any other fields you need ...
-    adverse_event_types = forms.MultipleChoiceField(
+    adverse_event_types = forms.ModelMultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=AE_TYPE_CHOICES,
+        queryset=AdverseEvent.objects.all(),
         label="Type of Adverse Events"
     )
     severity = forms.ChoiceField(

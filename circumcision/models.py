@@ -85,10 +85,21 @@ class Appointment(models.Model):
 class ProcedureType(models.Model):
     name = models.CharField(max_length=255)
     details = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.name
+    
+class Anesthesia(models.Model):
+    name = models.CharField(max_length=255)
+    details = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.name
 
 class AdverseEvent(models.Model):
     name = models.CharField(max_length=255)
     details = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.name
+    
 
 
 class MedicalHistory(models.Model):

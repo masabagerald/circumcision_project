@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit,Tribe,Religion
+from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit,Tribe,Religion,ProcedureType,Anesthesia,AdverseEvent
 
 # Register your models here.
 
@@ -47,6 +47,12 @@ class MedicalHistoryAdmin(admin.ModelAdmin):
 admin.site.register(MedicalHistory, MedicalHistoryAdmin)
 
 
+class ProcedureTypeAdmin(admin.ModelAdmin):
+    list_display = ('name','details')
+    search_fields = ('name','details')
+admin.site.register(ProcedureType, ProcedureTypeAdmin)
+
+
 class CircumcisionProcedureAdmin(admin.ModelAdmin):
     list_display = ('client', 'date_of_circumcision', 'procedure_type')
     search_fields = ('client', 'date_of_circumcision', 'procedure_type')
@@ -76,3 +82,15 @@ class ReligionAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 admin.site.register(Religion,ReligionAdmin)
+
+class AnesthesiaAdmin(admin.ModelAdmin):
+    list_display = ('name','details' )
+    search_fields = ('name','details')
+
+admin.site.register(Anesthesia,AnesthesiaAdmin)
+
+class AdverseEventAdmin(admin.ModelAdmin):
+    list_display = ('name','details' )
+    search_fields = ('name','details')
+
+admin.site.register(AdverseEvent,AdverseEventAdmin)
