@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from circumcision.models import Client,Surgery,FollowUpVisit,Religion,Tribe,CircumcisionProcedure
 
 
-from circumcision.forms import ClientForm ,RegisterForm,CircumcisionProcedureForm
+from circumcision.forms import ClientForm ,RegisterForm,CircumcisionProcedureForm,FollowUpVisitForm
 
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login,logout
@@ -98,4 +98,27 @@ def procedure_form(request,client_id):
         form = CircumcisionProcedureForm()
 
     return render(request, 'clients\procedure_form.html', {'form': form})
+
+
+
+def visit_form(request,client_id):
+    if request.method == 'POST':
+        form = FollowUpVisitForm(request.POST)
+        client = get_object_or_404(Client, id=client_id)
+        if form.is_valid():
+            follow_up_visit = form.save(commit=False)
+            # ... perform any custom actions needed before saving ...
+            follow_up_visit.save()
+            # If your model has many-to-many fields, you need to save them after the initial save.
+            form.save_m2m()
+          #  messages.success(request, 'Follow up visit saved successfully!')
+            return redirect('patient_dashbord',client_id=client.id)
+    else:
+        form = FollowUpVisitForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'clients\\visit_form.html', context)
+
 

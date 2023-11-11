@@ -1,5 +1,5 @@
 from django import forms
-from .models import Client,ProcedureType,AdverseEvent,Anesthesia
+from .models import Client,ProcedureType,AdverseEvent,Anesthesia,FollowUpVisit
 from django.contrib.auth.models import User
 
 class ClientForm(forms.ModelForm):
@@ -93,3 +93,29 @@ class CircumcisionProcedureForm(forms.Form):
         cleaned_data = super().clean()
         # add custom validation if needed
         return cleaned_data
+    
+
+
+class FollowUpVisitForm(forms.ModelForm):
+    class Meta:
+        model = FollowUpVisit
+        fields = [
+            'circumcision_procedure', 
+            'Client', 
+            'visit_type', 
+            'visit_date', 
+            'wound_status', 
+            'presence_of_adverse_event', 
+            'type_of_adverse_event', 
+            'severity_of_adverse_event', 
+            'treatment_given', 
+            'attending_health_worker',
+        ]
+        widgets = {
+            'visit_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'wound_status': forms.Select(attrs={'class': 'form-control'}),
+            'severity_of_adverse_event': forms.Select(attrs={'class': 'form-control'}),
+            'treatment_given': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'attending_health_worker': forms.TextInput(attrs={'class': 'form-control'}),
+            'type_of_adverse_event': forms.CheckboxSelectMultiple(),
+        }

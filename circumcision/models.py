@@ -192,11 +192,19 @@ class VisitType(models.Model):
     def __str__(self):
         return self.name
     
+# Enum choices for Severity of AE
+SEVERITY_CHOICES = (
+    (1, 'Mild'),
+    (2, 'Moderate'),
+    (3, 'Severe'),
+)
+    
 class FollowUpVisit(models.Model):
     circumcision_procedure = models.ForeignKey(CircumcisionProcedure, on_delete=models.CASCADE, related_name='follow_up_visits')
+    Client = models.ForeignKey(Client, on_delete=models.CASCADE)
     visit_type = models.ForeignKey(VisitType, on_delete=models.SET_NULL, null=True, blank=True)
     
-    follow_up_dates = models.DateField(null=True, blank=True)
+    visit_date = models.DateField(null=True, blank=True)
     wound_status = models.CharField(max_length=20, choices=[('healing', 'Healing'), ('infected', 'Infected'), ('other', 'Other')], null=True, blank=True)
     
     presence_of_adverse_event = models.BooleanField(default=False)
@@ -205,6 +213,7 @@ class FollowUpVisit(models.Model):
     
     severity_of_adverse_event = models.CharField(max_length=10, choices=[('mild', 'Mild'), ('moderate', 'Moderate'), ('severe', 'Severe')], null=True, blank=True)
     treatment_given = models.TextField(null=True, blank=True)
+    attending_health_worker = models.CharField(max_length=100)
 
     def __str__(self):
         return f"Follow Up Visit for {self.circumcision_procedure.client.first_name} {self.circumcision_procedure.client.last_name} - {self.visit_type.name}"

@@ -1,0 +1,92 @@
+{% extends 'base.html' %} <!-- Replace with your base template -->
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Follow Up Visit Form</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" class="form-horizontal">
+                {% csrf_token %}
+                {{ form.media }}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            {{ form.circumcision_procedure.label_tag }}
+                            {{ form.circumcision_procedure|add_class:"form-control" }}
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.Client.label_tag }}
+                            {{ form.Client|add_class:"form-control" }}
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.visit_type.label_tag }}
+                            {{ form.visit_type|add_class:"form-control" }}
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.visit_date.label_tag }}
+                            {{ form.visit_date|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            {{ form.wound_status.label_tag }}
+                            {{ form.wound_status|add_class:"form-select" }}
+                        </div>
+                        <div class="form-check mb-3 form-check">
+                            {{ form.presence_of_adverse_event }}
+                            {{ form.presence_of_adverse_event.label_tag }}
+                        </div>
+                        <div id="adverseEventDetails" style="display:none;">
+                            <div class="form-floating mb-3">
+                                {{ form.type_of_adverse_event.label_tag }}
+                                {{ form.type_of_adverse_event }}
+                            </div>
+                            <div class="form-floating mb-3">
+                                {{ form.severity_of_adverse_event.label_tag }}
+                                {{ form.severity_of_adverse_event|add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="form-floating mb-3">
+                            {{ form.treatment_given.label_tag }}
+                            {{ form.treatment_given|add_class:"form-control" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="form-floating mb-3">
+                            {{ form.attending_health_worker.label_tag }}
+                            {{ form.attending_health_worker|add_class:"form-control" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function toggleAdverseEventDetails() {
+            const checkbox = document.getElementById('id_presence_of_adverse_event');
+            const details = document.getElementById('adverseEventDetails');
+            details.style.display = checkbox.checked ? 'block' : 'none';
+        }
+    
+        const checkbox = document.getElementById('id_presence_of_adverse_event');
+        checkbox.addEventListener('change', toggleAdverseEventDetails);
+    
+        // Call the function in case the checkbox is pre-checked when the page loads
+        toggleAdverseEventDetails();
+    });
+    </script>
+{% endblock %}

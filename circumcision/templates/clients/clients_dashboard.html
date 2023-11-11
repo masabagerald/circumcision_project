@@ -49,7 +49,10 @@
         <h6 class="display-4">{{ client}}</h6>
         <a href="" class="action-link">Edit Profile</a>
         <a href="" class="action-link">Schedule Appointment</a>
-        <a href="" class="action-link" data-bs-toggle="modal" data-bs-target="#addVisitModal">Add Visit</a>
+        
+        <a href="{% url 'visit_form' client.id  %}" class="btn btn-primary" role="button">
+            Add visit
+        </a>
       
         <!-- Your Django template -->
       

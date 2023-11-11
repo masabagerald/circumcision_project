@@ -61,8 +61,8 @@ admin.site.register(CircumcisionProcedure, CircumcisionProcedureAdmin)
 
 
 class FollowUpVisitAdmin(admin.ModelAdmin):
-    list_display = ('circumcision_procedure', 'visit_type', 'follow_up_dates', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
-    search_fields = ('circumcision_procedure', 'visit_type', 'follow_up_dates', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
+    list_display = ('circumcision_procedure', 'visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
+    search_fields = ('circumcision_procedure', 'visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
 
     def display_type_of_adverse_event(self, obj):
         return ", ".join([str(item) for item in obj.type_of_adverse_event.all()])
