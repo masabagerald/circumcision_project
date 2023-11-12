@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit,Tribe,Religion,ProcedureType,Anesthesia,AdverseEvent
+from .models import Client, Surgery, AppointmentType, Appointment,CircumcisionMethod,MedicalHistory,CircumcisionProcedure,FollowUpVisit,Tribe,Religion,ProcedureType,Anesthesia,AdverseEvent,VisitType
 
 # Register your models here.
 
@@ -61,8 +61,8 @@ admin.site.register(CircumcisionProcedure, CircumcisionProcedureAdmin)
 
 
 class FollowUpVisitAdmin(admin.ModelAdmin):
-    list_display = ('circumcision_procedure', 'visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
-    search_fields = ('circumcision_procedure', 'visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
+    list_display = ('Client', 'visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
+    search_fields = ('Client','visit_type', 'visit_date', 'wound_status',  'display_type_of_adverse_event', 'severity_of_adverse_event', 'treatment_given')
 
     def display_type_of_adverse_event(self, obj):
         return ", ".join([str(item) for item in obj.type_of_adverse_event.all()])
@@ -94,3 +94,9 @@ class AdverseEventAdmin(admin.ModelAdmin):
     search_fields = ('name','details')
 
 admin.site.register(AdverseEvent,AdverseEventAdmin)
+
+class VisitTypeAdmin(admin.ModelAdmin):
+    list_display = ('name','description')
+    search_fields = ('name','description')
+
+admin.site.register(VisitType,VisitTypeAdmin)

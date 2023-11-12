@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 
@@ -111,7 +112,7 @@ def visit_form(request,client_id):
             follow_up_visit.save()
             # If your model has many-to-many fields, you need to save them after the initial save.
             form.save_m2m()
-          #  messages.success(request, 'Follow up visit saved successfully!')
+            messages.success(request, 'Follow up visit saved successfully!')
             return redirect('patient_dashbord',client_id=client.id)
     else:
         form = FollowUpVisitForm()

@@ -200,8 +200,8 @@ SEVERITY_CHOICES = (
 )
     
 class FollowUpVisit(models.Model):
-    circumcision_procedure = models.ForeignKey(CircumcisionProcedure, on_delete=models.CASCADE, related_name='follow_up_visits')
-    Client = models.ForeignKey(Client, on_delete=models.CASCADE)
+   # circumcision_procedure = models.ForeignKey(CircumcisionProcedure, on_delete=models.CASCADE, related_name='follow_up_visits')
+    Client = models.ForeignKey(Client, on_delete=models.CASCADE ,default=1)
     visit_type = models.ForeignKey(VisitType, on_delete=models.SET_NULL, null=True, blank=True)
     
     visit_date = models.DateField(null=True, blank=True)
@@ -216,4 +216,4 @@ class FollowUpVisit(models.Model):
     attending_health_worker = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Follow Up Visit for {self.circumcision_procedure.client.first_name} {self.circumcision_procedure.client.last_name} - {self.visit_type.name}"
+        return f"Follow Up Visit for {self.Client.first_name} {self.Client.last_name} - {self.visit_type.name}"

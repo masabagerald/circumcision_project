@@ -100,7 +100,7 @@ class FollowUpVisitForm(forms.ModelForm):
     class Meta:
         model = FollowUpVisit
         fields = [
-            'circumcision_procedure', 
+          
             'Client', 
             'visit_type', 
             'visit_date', 
