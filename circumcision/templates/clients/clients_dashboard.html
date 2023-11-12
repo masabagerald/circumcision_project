@@ -91,11 +91,30 @@
                     <h5>Recent Visits</h5>
                 </div>
                 <div class="card-body">
-                    <ul>
-                        {% for visit in patient.visits %}
-                        <li><strong>Date:</strong> {{ visit.date }}, <strong>Reason:</strong> {{ visit.reason }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if visits %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Wound Status</th>
+                                <th scope="col">Visit Type</th>
+                                <!-- Add other headers as needed -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for visit in visits %}
+                            <tr>
+                                <td><a href="{% url 'follow_up_visit_detail' visit.id %}">{{ visit.visit_date }}</a></td>
+                                <td>{{ visit.get_wound_status_display }}</td>
+                                <td>{{ visit.visit_type }}</td>
+                                <!-- Add other details as needed -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                            </table>
+                    {% else %}
+                        <p>No follow-up visits found for this client.</p>
+                    {% endif %}
                 </div>
             </div>
 

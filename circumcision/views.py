@@ -62,8 +62,9 @@ def register(request):
 
 def patient_dashbord(request,client_id):
     client = get_object_or_404(Client, id=client_id)
+    visits = FollowUpVisit.objects.filter(Client=client)
    
-    return render(request, 'clients\clients_dashboard.html',{'client': client})
+    return render(request, 'clients\clients_dashboard.html',{'client': client,'visits':visits,})
 
 
 
@@ -121,5 +122,23 @@ def visit_form(request,client_id):
         'form': form,
     }
     return render(request, 'clients\\visit_form.html', context)
+
+
+
+def follow_up_visit_detail(request, visit_id):
+    visit = get_object_or_404(FollowUpVisit, id=visit_id)
+    return render(request, 'clients/follow_up_visit_detail.html', {'visit': visit})
+
+
+def edit_follow_up_visit(request, visit_id):
+    visit = get_object_or_404(FollowUpVisit, pk=visit_id)
+    if request.method == 'POST':
+        form = FollowUpVisitForm(request.POST, instance=visit)
+        if form.is_valid():
+            form.save()
+            return redirect('follow_up_visit_detail', visit_id=visit.id)
+    else:
+        form = FollowUpVisitForm(instance=visit)
+    return render(request, 'clients/edit_follow_up_visit.html', {'form': form, 'visit': visit})
 
 

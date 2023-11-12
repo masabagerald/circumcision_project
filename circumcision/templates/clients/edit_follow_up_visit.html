@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% load static %} <!-- If you have custom CSS or JavaScript -->
+{% block stylesheet %}
+<link href="{% static 'path/to/your/custom.css' %}" rel="stylesheet"> <!-- Custom stylesheet, if needed -->
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg"> <!-- Shadow for depth -->
+        <div class="card-header bg-info text-white"> <!-- Info color for the header -->
+            <h5 class="card-title">Edit Follow-Up Visit</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="form-row">
+                    {% for field in form %}
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                        {{ field|add_class:"form-control" }} <!-- Use the add_class filter to add the form-control class -->
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-4"> <!-- Center-aligned button -->
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="fas fa-save"></i> Update Visit <!-- Save icon for the button -->
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'path/to/your/custom.js' %}"></script> <!-- Custom JavaScript, if needed -->
+{% endblock %}

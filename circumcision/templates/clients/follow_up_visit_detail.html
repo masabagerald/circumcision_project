@@ -1,0 +1,64 @@
+{% extends 'base.html' %} <!-- Replace with your base template -->
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+<style>
+    .detail-label {
+        color: #6c757d; /* Muted label color */
+        font-weight: 500; /* Slightly bold */
+    }
+    .detail-value {
+        font-weight: 400; /* Regular weight for value */
+        margin-bottom: 0.5rem; /* Spacing below each detail */
+    }
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+    }
+    .icon-btn i {
+        margin-right: 0.3rem; /* Space between icon and text */
+    }
+    .card-subtitle {
+        border-bottom: 1px solid #dee2e6; /* Subtle divider */
+        padding-bottom: 0.5rem; /* Spacing for divider */
+        margin-bottom: 1rem; /* Spacing below subtitle */
+    }
+    .btn-custom-primary {
+        background-color: #0056b3; /* Custom primary color for buttons */
+        color: white;
+    }
+    .btn-custom-warning {
+        background-color: #ffc107; /* Custom warning color for buttons */
+        color: black; /* Text color for warning buttons */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-custom-primary text-white">
+            <h2 class="card-title">Follow-Up Visit on {{ visit.visit_date|date:"Y-m-d" }}</h2>
+        </div>
+        <div class="card-body">
+            <h3 class="card-subtitle">Visit Details</h3>
+            <p class="detail-label">Wound Status:<span class="detail-value">{{ visit.get_wound_status_display }}</span></p>
+            <p class="detail-label">Visit Type:<span class="detail-value">{{ visit.visit_type.get_visit_type_display }}</span></p>
+            <p class="detail-label">Presence of Adverse Event:<span class="detail-value">{{ visit.presence_of_adverse_event|yesno:"Yes,No" }}</span></p>
+            {% if visit.presence_of_adverse_event %}
+                <p class="detail-label">Type of Adverse Event:<span class="detail-value">{{ visit.type_of_adverse_event.all|join:", " }}</span></p>
+                <p class="detail-label">Severity of Adverse Event:<span class="detail-value">{{ visit.get_severity_of_adverse_event_display }}</span></p>
+            {% endif %}
+            <p class="detail-label">Treatment Given:<span class="detail-value">{{ visit.treatment_given }}</span></p>
+            <p class="detail-label">Attending Health Worker:<span class="detail-value">{{ visit.attending_health_worker }}</span></p>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'edit_follow_up_visit' visit.id %}" class="btn btn-custom-warning icon-btn">
+                    <i class="fas fa-edit"></i> Edit Visit
+                </a>
+                <a href="{% url 'patient_dashbord' visit.Client.id %}" class="btn btn-custom-primary icon-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
