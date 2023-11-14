@@ -1,6 +1,7 @@
 from pyexpat.errors import messages
 from django.shortcuts import render
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from circumcision.models import Client,Surgery,FollowUpVisit,Religion,Tribe,CircumcisionProcedure
 
@@ -63,8 +64,9 @@ def register(request):
 def patient_dashbord(request,client_id):
     client = get_object_or_404(Client, id=client_id)
     visits = FollowUpVisit.objects.filter(Client=client)
+    procedures = CircumcisionProcedure.objects.filter(client=client)
    
-    return render(request, 'clients\clients_dashboard.html',{'client': client,'visits':visits,})
+    return render(request, 'clients\clients_dashboard.html',{'client': client,'visits':visits,'procedures':procedures})
 
 
 
@@ -86,15 +88,20 @@ def procedure_form(request,client_id):
                 start_time=form.cleaned_data['start_time'],
                 end_time=form.cleaned_data['end_time'],
                 local_anesthesia=form.cleaned_data['local_anesthesia'],
-                type_of_circumcision=form.cleaned_data['type_of_circumcision'],
+                procedure_type=form.cleaned_data['procedure_type'],
                 ring_size=form.cleaned_data['ring_size'],
-                name_of_circumciser=form.cleaned_data['name_of_circumciser'],
-                adverse_events=form.cleaned_data['adverse_events'],
-                adverse_event_details=form.cleaned_data['adverse_event_details'],
+                circumciser_name=form.cleaned_data['name_of_circumciser'],
+                # type_of_adverse_event=form.cleaned_data['adverse_events'],
+                severity_of_adverse_event=form.cleaned_data['adverse_event_details'],
                 # ... populate other fields ...
             )
             # Save the new instance to the database
                 circumcision_procedure.save()
+
+                # Now handle the many-to-many fields
+                type_of_adverse_events = form.cleaned_data.get('type_of_adverse_event')
+                if type_of_adverse_events:
+                    circumcision_procedure.type_of_adverse_event.set(type_of_adverse_events)
                 return redirect('patient_dashbord',client_id=client.id)  # Replace with the name of your success page
     else:
         form = CircumcisionProcedureForm()
@@ -140,5 +147,29 @@ def edit_follow_up_visit(request, visit_id):
     else:
         form = FollowUpVisitForm(instance=visit)
     return render(request, 'clients/edit_follow_up_visit.html', {'form': form, 'visit': visit})
+
+def procedure_details(request, procedure_id):
+    # Get the procedure by id or return a 404 error if not found
+    procedure = get_object_or_404(CircumcisionProcedure, id=procedure_id)
+    return render(request, 'clients/procedure_details.html', {'procedure': procedure})
+
+
+def procedure_edit(request, procedure_id):
+    # Get the procedure object to edit, or return a 404
+    procedure = get_object_or_404(CircumcisionProcedure, id=procedure_id)
+    
+    if request.method == 'POST':
+        # If the form has been submitted, process the form data
+        form = CircumcisionProcedureForm(request.POST, instance=procedure)
+        if form.is_valid():
+            # If the form is valid, save the changes and redirect to the details view
+            form.save()
+            return redirect(reverse('procedure_details', args=[procedure.id]))
+    else:
+        # If it's a GET request, instantiate the form with the procedure instance
+        form = CircumcisionProcedureForm(instance=procedure)
+    
+    # Render the edit form template
+    return render(request, 'procedure_edit.html', {'form': form, 'procedure': procedure})
 
 

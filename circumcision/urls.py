@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,list_clients,client_regsitration,add_client,register,logout_view,patient_dashbord,procedure_form,visit_form,follow_up_visit_detail,edit_follow_up_visit
+from .views import index,list_clients,client_regsitration,add_client,register,logout_view,patient_dashbord,procedure_form,visit_form,follow_up_visit_detail,edit_follow_up_visit,procedure_details,procedure_edit
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -16,6 +16,10 @@ urlpatterns = [
     path('<int:client_id>/visit_form', visit_form, name='visit_form'),
     path('follow-up-visit/<int:visit_id>/', follow_up_visit_detail, name='follow_up_visit_detail'),
     path('follow-up-visit/<int:visit_id>/edit/', edit_follow_up_visit, name='edit_follow_up_visit'),
+
+     path('procedure/<int:procedure_id>/details/', procedure_details, name='procedure_details'),
+
+       path('procedures/<int:procedure_id>/edit/',procedure_edit, name='procedure_edit'),
 
 
     

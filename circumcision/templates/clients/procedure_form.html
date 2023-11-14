@@ -45,5 +45,32 @@
     </div>
   </div>
 </div>
+<script>
+  // Wait for the DOM to be loaded before attaching event listeners
+  document.addEventListener('DOMContentLoaded', function () {
+    // Assuming the 'id_adverse_events' is the ID for the adverse events checkbox
+    var adverseEventCheckbox = document.getElementById('id_adverse_events');
+    var adverseEventTypes = document.getElementById('id_adverse_event_types').closest('.form-group');
+    var severity = document.getElementById('id_severity').closest('.form-group');
+
+    // Function to toggle the display of adverse event types and severity
+    function toggleAdverseEventFields() {
+      if (adverseEventCheckbox.checked) {
+        adverseEventTypes.style.display = 'block';
+        severity.style.display = 'block';
+      } else {
+        adverseEventTypes.style.display = 'none';
+        severity.style.display = 'none';
+      }
+    }
+
+    // Attach the event listener to the checkbox for the 'change' event
+    adverseEventCheckbox.addEventListener('change', toggleAdverseEventFields);
+
+    // Call the function to set the initial state on page load
+    toggleAdverseEventFields();
+  });
+</script>
+
 
 {% endblock %}

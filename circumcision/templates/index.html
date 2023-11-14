@@ -6,7 +6,7 @@
 
 <!-- Page Header -->
 <div class="page-header row no-gutters py-4">
-    <div class="col-12 text-center">
+    <div class="col-12 text-center text-primary">
         <span class="text-uppercase page-subtitle">Dashboard</span>
         <h3 class="page-title">Clinic Overview</h3>
     </div>
@@ -14,45 +14,84 @@
 
 <!-- Stats Blocks -->
 <div class="row">
-
+    <!-- Stat Blocks here -->
+   
     <!-- Total Clients Registered -->
-    <div class="col-lg col-md-6 col-sm-6 mb-4">
-        <div class="stats-small card card-small bg-light">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-dark text-uppercase"><i class="fas fa-users mr-2"></i>Clients Registered</span>
-                    <h6 class="font-weight-bold text-primary">{{ total_clients }}</h6>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Clients Registered
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_clients }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Total Surgeries Performed -->
-    <div class="col-lg col-md-6 col-sm-6 mb-4">
-        <div class="stats-small card card-small bg-light">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-dark text-uppercase"><i class="fas fa-procedures mr-2"></i>Surgeries Performed</span>
-                    <h6 class="font-weight-bold text-primary">{{ total_surgeries }}</h6>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Surgeries Performed
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_surgeries }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-procedures fa-2x text-gray-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Total Follow-ups Completed -->
-    <div class="col-lg col-md-4 col-sm-6 mb-4">
-        <div class="stats-small card card-small bg-light">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-dark text-uppercase"><i class="fas fa-calendar-check mr-2"></i>Follow-ups Completed</span>
-                    <h6 class="font-weight-bold text-primary">{{ total_followups }}</h6>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Follow-ups Completed
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_followups }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ... Add more metrics as needed ... -->
-
+    <!-- New Stat Block: Appointments Today -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Appointments Today
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ appointments_today }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Repeat for other stat blocks -->
 </div>
 
 <hr class="my-4">
@@ -60,11 +99,25 @@
 <!-- Adverse Events Overview -->
 <div class="row">
     <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
-        <!-- Placeholder: Adverse Events Count and Types -->
-        <div class="card bg-light">
+        <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title text-dark">Adverse Events</h5>
-                <!-- Display types and counts of adverse events here -->
+                <h5 class="card-title text-success">Adverse Events</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Event Type</th>
+                            <th scope="col">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event_type, count in adverse_event_counts.items %}
+                        <tr>
+                            <td>{{ event_type }}</td>
+                            <td>{{ count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -75,10 +128,9 @@
 <!-- Client Feedback/Queries -->
 <div class="row">
     <div class="col-lg-5 col-md-12 col-sm-12 mb-4">
-        <!-- Placeholder: Display recent feedback or queries from clients -->
-        <div class="card bg-light">
+        <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title text-dark">Client Feedback</h5>
+                <h5 class="card-title text-warning">Client Feedback</h5>
                 <!-- Display feedback here -->
             </div>
         </div>
@@ -90,10 +142,9 @@
 <!-- Referrals: How Clients Knew About The Service -->
 <div class="row">
     <div class="col-lg-3 col-md-12 col-sm-12 mb-4">
-        <!-- Placeholder: Display the sources from which clients knew about the service -->
-        <div class="card bg-light">
+        <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title text-dark">Client Referrals</h5>
+                <h5 class="card-title text-info">Client Referrals</h5>
                 <!-- Display referral sources here -->
             </div>
         </div>

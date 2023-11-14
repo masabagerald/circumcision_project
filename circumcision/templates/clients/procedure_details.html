@@ -1,0 +1,38 @@
+<!-- procedure_details.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h6 class="card-title">Procedure Details</h6>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Date of Circumcision:</strong> {{ procedure.date_of_circumcision }}</li>
+      <li class="list-group-item"><strong>Start Time:</strong> {{ procedure.start_time }}</li>
+      <li class="list-group-item"><strong>End Time:</strong> {{ procedure.end_time }}</li>
+      <li class="list-group-item"><strong>Local Anesthesia:</strong> {{ procedure.local_anesthesia }}</li>
+      <li class="list-group-item"><strong>Procedure Type:</strong> {{ procedure.procedure_type }}</li>
+      <li class="list-group-item"><strong>Ring Size:</strong> {{ procedure.ring_size }}</li>
+      <li class="list-group-item"><strong>Circumciser:</strong> {{ procedure.name_of_circumciser }}</li>
+      <li class="list-group-item"><strong>Adverse Events:</strong> {{ procedure.adverse_events }}</li>
+      <li class="list-group-item"><strong>Adverse Event Details:</strong> {{ procedure.adverse_event_details }}</li>
+      <li class="list-group-item"><strong>Type of Adverse Events:</strong> {{ procedure.adverse_event_types.all|join:", " }}</li>
+      <li class="list-group-item"><strong>Severity:</strong> {{ procedure.severity }}</li>
+      <li class="list-group-item"><strong>Treatment Given:</strong> {{ procedure.treatment_given }}</li>
+      <li class="list-group-item"><strong>Blood Pressure:</strong> {{ procedure.blood_pressure }}</li>
+      <li class="list-group-item"><strong>Pulse:</strong> {{ procedure.pulse }}</li>
+      <li class="list-group-item"><strong>Respiratory Rate:</strong> {{ procedure.respiratory_rate }}</li>
+      <li class="list-group-item"><strong>Post-Operative Medication:</strong> {{ procedure.post_operative_medication }}</li>
+      <!-- Any other fields you want to display -->
+    </ul>
+    <div class="card-body">
+        <!-- Edit button -->
+        <a href="{% url 'procedure_edit' procedure.id %}" class="btn btn-warning">Edit</a>
+        <!-- Back button -->
+        <a href="" class="btn btn-secondary">Back to List</a>
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -121,14 +121,33 @@
             <!-- Medical history section -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5>Medical History</h5>
+                    <h5>Circumcision Procedures</h5>
                 </div>
                 <div class="card-body">
-                    <ul>
-                        {% for event in patient.medical_history %}
-                        <li><strong>Date:</strong> {{ event.date }}, <strong>Event:</strong> {{ event.description }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if visits %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Type of Procedure</th>
+                                <th scope="col">Local Anesthesia</th>
+                                <!-- Add other headers as needed -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for procedure in procedures %}
+                            <tr>
+                                <td><a href="{% url 'procedure_details' procedure.id %}">{{ procedure.date_of_circumcision }}</a></td>
+                                <td>{{ procedure.procedure_type }}</td>
+                                <td>{{ procedure.local_anesthesia }}</td>
+                                <!-- Add other details as needed -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                            </table>
+                    {% else %}
+                        <p>No Procedure found for this client.</p>
+                    {% endif %}
                 </div>
             </div>
 

@@ -45,9 +45,9 @@ class CircumcisionProcedureForm(forms.Form):
     date_of_circumcision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     start_time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     end_time = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    local_anesthesia = forms.ModelMultipleChoiceField(
+    local_anesthesia = forms.ModelChoiceField(
         required=False,
-        widget=forms.CheckboxSelectMultiple,
+       # widget=forms.CheckboxSelectMultiple,
         queryset=Anesthesia.objects.all(),
         label="Local Anesthesia"
     )
@@ -59,8 +59,8 @@ class CircumcisionProcedureForm(forms.Form):
    # type_of_circumcision = forms.ChoiceField(choices=[('dorsal_slit', 'Dorsal slit'), ('forceps_guided', 'Forceps guided'), ('sleeve', 'Sleeve'), ('other', 'Other')])
     ring_size = forms.IntegerField(required=False, min_value=1, max_value=100)  # adjust the range as needed
     name_of_circumciser = forms.CharField(max_length=100)
-    adverse_events = forms.BooleanField(required=False)
-    adverse_event_details = forms.CharField(widget=forms.Textarea, required=False)
+    adverse_events = forms.BooleanField(required=False,label="Is there any Adverse Events?")
+    
     # ... any other fields you need ...
     adverse_event_types = forms.ModelMultipleChoiceField(
         required=False,
@@ -72,7 +72,7 @@ class CircumcisionProcedureForm(forms.Form):
         required=False,
         widget=forms.RadioSelect,
         choices=SEVERITY_CHOICES,
-        label="Severity"
+        label="Severity of Adverse Events "
     )
     treatment_given = forms.CharField(
         required=False,
