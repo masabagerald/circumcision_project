@@ -170,6 +170,7 @@ def procedure_edit(request, procedure_id):
         form = CircumcisionProcedureForm(instance=procedure)
     
     # Render the edit form template
-    return render(request, 'procedure_edit.html', {'form': form, 'procedure': procedure})
+    return render(request, 'clients/procedure_edit.html', {'form': form, 'procedure': procedure})
+
 
 

@@ -2,48 +2,62 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col">
-      <div class="card card-small mb-4">
-        <div class="card-header border-bottom">
-          <h6 class="m-0">Active Clients</h6>
-        </div>
-        <div class="card-body p-0 pb-3 text-center">
-          <table class="table mb-0">
-            <thead class="bg-light">
-              <tr>
-                <th scope="col" class="border-0">#</th>
-                <th scope="col" class="border-0">First Name</th>
-                <th scope="col" class="border-0">Last Name</th>
-                <th scope="col" class="border-0">NIN</th>
-                <th scope="col" class="border-0">Phone</th>
-                <th scope="col" class="border-0">Action</th>
-               
-              </tr>
-            </thead>
-            <tbody>            
-              
-              
-                {% for client in clients %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ client.first_name}}</td>
-                  <td>{{ client.last_name }}</td>
-                  <td>{{ client.nin }}</td>
-                  <td>{{client.client_phone_number}}</td>
-                  <td>
-                    <a href="" class="btn btn-primary">Send SMS</a>
-                    <a href="{% url 'patient_dashbord' client.id %}" class="btn btn-primary">Patients Dashboard</a>
-                  </td>
-                  <!-- Add other fields as needed -->
-                </tr>
-              {% endfor %}
-           
-            </tbody>
-          </table>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Active Clients</h6>
+            <!-- Optionally, add more header content here -->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>NIN</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for client in clients %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ client.first_name }}</td>
+                    <td>{{ client.last_name }}</td>
+                    <td>{{ client.nin }}</td>
+                    <td>{{ client.client_phone_number }}</td>
+                    <td>
+                      <a href="" class="btn btn-sm btn-success">
+                        <i class="fas fa-sms"></i> Send SMS
+                      </a>
+                      <a href="{% url 'patient_dashbord' client.id %}" class="btn btn-sm btn-info">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                      </a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center text-muted">No active clients found</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
   </div>
- 
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#dataTable').DataTable();
+  });
+</script>
+
 {% endblock %}

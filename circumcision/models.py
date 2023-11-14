@@ -168,7 +168,7 @@ class CircumcisionProcedure(models.Model):
     # emla_cream_used = models.BooleanField(default=False)    
     
     procedure_type = models.ForeignKey(ProcedureType, on_delete=models.CASCADE)
-    other_procedure_type = models.CharField(max_length=255, null=True, blank=True)  # if procedure_type is 'other'
+   
     ring_size = models.CharField(max_length=255, null=True, blank=True)
     circumciser_name = models.CharField(max_length=255, null=True, blank=True)
     circumciser_cadre = models.CharField(max_length=255, null=True, blank=True)
@@ -180,6 +180,7 @@ class CircumcisionProcedure(models.Model):
     blood_pressure = models.CharField(max_length=20, null=True, blank=True)
     pulse = models.PositiveIntegerField(null=True, blank=True)
     respiratory_rate = models.PositiveIntegerField(null=True, blank=True)
+    post_operative_medication = models.TextField(null=True, blank=True)
     
     def __str__(self):
         return f"Circumcision Procedure for {self.client.first_name} {self.client.last_name}"
