@@ -67,99 +67,202 @@
             grid-column: span 3; 
         }
     }
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px 5px 0 0;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
 </style>
 
-<h2>Search for a Client</h2>
-<form id="search-form" action="/search_client/" method="get">
-    <label for="search">Search by First Name, Last Name, or National ID Number:</label>
-    <input type="text" id="search" name="search">
-    <input type="submit" value="Search">
-</form>
+
 
 <hr>
 
-<h2>Enter New Client Information</h2>
-{% if form.errors %}
-    <div class="alert alert-danger">
-        <strong>There were errors in your submission:</strong>
-        <ul>
-            {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <li>{{ field }}: {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
+<div class="card">
+    <div class="card-header">Enter New Client Information</div>
+    <div class="card-body">
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>There were errors in your submission:</strong>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
-
-
-<form action="/add_client/" method="post">
-    {% csrf_token %}
+        <form action="/add_client/" method="post">
+            {% csrf_token %}
     
     <!-- Client Basic Information -->
-    <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" required>
-    
-    <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="last_name" required>
+    <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required class="form-control">
+    </div>
+   
+    <div class="form-group">
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
 
-    <label for="nin">National ID Number:</label>
-    <input type="text" id="nin" name="nin" required>
-
-    <label for="age">Age:</label>
-    <input type="number" id="age" name="age" min="0">
-
-    <label for="education_level">Education Level:</label>
+    </div>
+   
+    <div class="form-group">
+        <label for="nin">National ID Number:</label>
+        <input type="text" id="nin" name="nin" required>
+    </div>
+   
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="0">
+    </div>
+   
+    <div class="form-group">
+        <label for="education_level">Education Level:</label>
     <select id="education_level" name="education_level">
         {% for value, display in education_choices %}
             <option value="{{ value }}">{{ display }}</option>
         {% endfor %}
     </select>
 
-    <label for="tribe">Tribe:</label>
-    <select id="tribe" name="tribe">
-        {% for tribe in tribes %}
-        <option value="{{ tribe.id }}">{{ tribe.name }}</option>
-        {% endfor %}
-    </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="tribe">Tribe:</label>
+        <select id="tribe" name="tribe">
+            {% for tribe in tribes %}
+            <option value="{{ tribe.id }}">{{ tribe.name }}</option>
+            {% endfor %}
+        </select>
 
-    <label for="religion">Religion:</label>
+    </div>
+    <div class="form-group">
+        <label for="religion">Religion:</label>
     <select id="religion" name="religion">
         {% for religion in religions %}
         <option value="{{ religion.id }}">{{ religion.name }}</option>
         {% endfor %}
     </select>
 
-    <label for="marital_status">Marital Status:</label>
+    </div>
+   
+
+    
+    <div class="form-group">
+        <label for="marital_status">Marital Status:</label>
     <select id="marital_status" name="marital_status">
         {% for value, display in marital_status %}
             <option value="{{ value }}">{{ display }}</option>
         {% endfor %}
     </select>
 
+    </div>
+    
+
     <!-- Address Information -->
-    <label for="district_of_residence">District of Residence:</label>
-    <input type="text" id="district_of_residence" name="district_of_residence">
 
-    <label for="sub_county">Sub County:</label>
+    <div class="form-group">
+        <label for="district_of_residence">District of Residence:</label>
+        <input type="text" id="district_of_residence" name="district_of_residence">
+        
+    </div>
+   
+
+
+    <div class="form-group">
+        <label for="sub_county">Sub County:</label>
     <input type="text" id="sub_county" name="sub_county" required>
+        
+    </div>
+    
 
-    <label for="parish">Parish:</label>
+    <div class="form-group">
+        <label for="parish">Parish:</label>
     <input type="text" id="parish" name="parish" required>
 
-    <label for="village">Village:</label>
+    </div>
+    
+
+    <div class="form-group">
+        <label for="village">Village:</label>
     <input type="text" id="village" name="village" required>
+        
+    </div>
+    
 
     <!-- Contact Information -->
-    <label for="client_phone_number">Client Phone Number:</label>
-    <input type="tel" id="client_phone_number" name="client_phone_number">
 
-    <label for="next_of_kin_name">Next of Kin Name:</label>
-    <input type="text" id="next_of_kin_name" name="next_of_kin_name" required>
+    <div class="form-group">
+        <label for="client_phone_number">Client Phone Number:</label>
+        <input type="tel" id="client_phone_number" name="client_phone_number">
+        
+    </div>
+   
 
-    <label for="next_of_kin_phone_number">Next of Kin Phone Number:</label>
-    <input type="tel" id="next_of_kin_phone_number" name="next_of_kin_phone_number" required>
+    <div class="form-group">
+        <label for="next_of_kin_name">Next of Kin Name:</label>
+        <input type="text" id="next_of_kin_name" name="next_of_kin_name" required>
+        
+    </div>
+   
+
+
+    <div class="form-group">
+        <label for="next_of_kin_phone_number">Next of Kin Phone Number:</label>
+        <input type="tel" id="next_of_kin_phone_number" name="next_of_kin_phone_number" required>
+        
+    </div>
+   
 
     <!-- Save Information -->
     <input type="submit" value="Save Client Information">
