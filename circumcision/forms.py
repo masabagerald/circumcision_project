@@ -1,11 +1,40 @@
 from django import forms
-from .models import Client,ProcedureType,AdverseEvent,Anesthesia,FollowUpVisit,CircumcisionProcedure
+from .models import Client,ProcedureType,AdverseEvent,Anesthesia,FollowUpVisit,CircumcisionProcedure,Tribe,Religion    
 from django.contrib.auth.models import User
 
 class ClientForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=255, label="First Name")
+    last_name = forms.CharField(max_length=255, label="Last Name")
+    nin = forms.CharField(max_length=255, label="National ID Number")
+    age = forms.IntegerField(required=False, label="Age", min_value=0)
+
+    education_level = forms.ChoiceField(choices=Client.EDUCATION_CHOICES, label="Education Level")
+    tribe = forms.ModelChoiceField(queryset=Tribe.objects.all(), empty_label="Select Tribe", label="Tribe")
+    religion = forms.ModelChoiceField(queryset=Religion.objects.all(), empty_label="Select Religion", label="Religion")
+
+    marital_status = forms.ChoiceField(choices=Client.MARITAL_STATUS_CHOICES, label="Marital Status")
+    district_of_residence = forms.CharField(max_length=255, required=False, label="District of Residence")
+    sub_county = forms.CharField(max_length=255, label="Sub County")
+    parish = forms.CharField(max_length=255, label="Parish")
+    village = forms.CharField(max_length=255, label="Village")
+
+    client_phone_number = forms.CharField(max_length=15, required=False, label="Client Phone Number")
+    next_of_kin_name = forms.CharField(max_length=255, label="Next of Kin Name")
+    next_of_kin_phone_number = forms.CharField(max_length=15, required=False, label="Next of Kin Phone Number")
+
+    payment_method = forms.ChoiceField(choices=Client.PAYMENT_METHODS, required=False, label="Payment Method")
+    transaction_id = forms.CharField(max_length=100, required=False, label="Transaction ID")
+    payment_decription = forms.CharField(widget=forms.Textarea, required=False, label="Payment Description")
+
     class Meta:
         model = Client
-        fields = '__all__'
+        fields = [
+            'first_name', 'last_name', 'nin', 'age', 'education_level', 
+            'tribe', 'religion', 'marital_status', 'district_of_residence', 
+            'sub_county', 'parish', 'village', 'client_phone_number', 
+            'next_of_kin_name', 'next_of_kin_phone_number', 'payment_method', 
+            'transaction_id', 'payment_decription'
+        ]
 
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

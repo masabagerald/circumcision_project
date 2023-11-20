@@ -7,13 +7,11 @@
         font-family: Arial, sans-serif;
         font-size: 14px;
     }
-
     h2 {
         color: #333;
         margin-bottom: 15px;
         font-size: 18px;
     }
-
     form {
         margin-bottom: 30px;
         background-color: #f7f7f7;
@@ -21,18 +19,11 @@
         border-radius: 5px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
-    
-    #search-form {
-        max-width: 400px;
-        margin: 0 auto 30px;
-    }
-
     label {
         display: block;
         margin-bottom: 3px;
         color: #555;
     }
-
     input, select {
         width: 100%;
         padding: 6px;
@@ -41,7 +32,6 @@
         border-radius: 4px;
         font-size: 14px;
     }
-
     input[type="submit"] {
         background-color: #4CAF50;
         color: white;
@@ -51,21 +41,8 @@
         cursor: pointer;
         margin-top: 10px;
     }
-
     input[type="submit"]:hover {
         background-color: #45a049;
-    }
-
-    @media (min-width: 768px) {
-        form:not(#search-form){
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px;
-        }
-
-        input[type="submit"] {
-            grid-column: span 3; 
-        }
     }
     .card {
         background-color: #fff;
@@ -74,7 +51,6 @@
         margin-bottom: 20px;
         padding: 20px;
     }
-
     .card-header {
         background-color: #007bff;
         color: white;
@@ -83,15 +59,12 @@
         font-size: 16px;
         font-weight: bold;
     }
-
     .form-group {
         margin-bottom: 1rem;
     }
-
     .form-group label {
         margin-bottom: 0.5rem;
     }
-
     .form-control {
         display: block;
         width: 100%;
@@ -105,7 +78,6 @@
         border-radius: 0.25rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
-
     .btn-primary {
         color: #fff;
         background-color: #007bff;
@@ -115,16 +87,54 @@
         font-size: 1rem;
         line-height: 1.5;
     }
-
     .btn-primary:hover {
         background-color: #0069d9;
         border-color: #0062cc;
     }
+    .tab-content {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    .tab-links {
+        overflow: hidden;
+        background: #f1f1f1;
+        text-align: center;
+    }
+    .tab-links button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+    .tab-links button:hover {
+        background-color: #ddd;
+    }
+    .tab-links button.active {
+        background-color: #ccc;
+    }
 </style>
 
-
-
-<hr>
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab-links");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
 
 <div class="card">
     <div class="card-header">Enter New Client Information</div>
@@ -142,130 +152,271 @@
             </div>
         {% endif %}
 
-        <form action="/add_client/" method="post">
+        <form action="/add_client/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-    
-    <!-- Client Basic Information -->
-    <div class="form-group">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required class="form-control">
-    </div>
-   
-    <div class="form-group">
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required>
 
-    </div>
-   
-    <div class="form-group">
-        <label for="nin">National ID Number:</label>
-        <input type="text" id="nin" name="nin" required>
-    </div>
-   
-    <div class="form-group">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" min="0">
-    </div>
-   
-    <div class="form-group">
-        <label for="education_level">Education Level:</label>
-    <select id="education_level" name="education_level">
-        {% for value, display in education_choices %}
-            <option value="{{ value }}">{{ display }}</option>
-        {% endfor %}
-    </select>
+            <div class="tab-links">
+                <button type="button" class="tablink" onclick="openTab(event, 'Demographics')">Demographics</button>
+                <button type="button" class="tablink" onclick="openTab(event, 'MedicalHistory')">Medical History</button>
+                <button type="button" class="tablink" onclick="openTab(event, 'Consent')">Consent</button>
+                <button type="button" class="tablink" onclick="openTab(event, 'Payments')">Payment Information</button>
+            </div>
 
-    </div>
-    
+            <div id="Demographics" class="tab-content">
+                <!-- Demographic Fields -->
+                   <!-- Client Basic Information -->
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required class="form-control">
+                </div>
+            
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+
+                </div>
+            
+                <div class="form-group">
+                    <label for="nin">National ID Number:</label>
+                    <input type="text" id="nin" name="nin" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="0">
+                </div>
+            
+                <div class="form-group">
+                    <label for="education_level">Education Level:</label>
+                <select id="education_level" name="education_level">
+                    {% for value, display in education_choices %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+
+                </div>
+                
+                <div class="form-group">
+                    <label for="tribe">Tribe:</label>
+                    <select id="tribe" name="tribe">
+                        {% for tribe in tribes %}
+                        <option value="{{ tribe.id }}">{{ tribe.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="religion">Religion:</label>
+                <select id="religion" name="religion">
+                    {% for religion in religions %}
+                    <option value="{{ religion.id }}">{{ religion.name }}</option>
+                    {% endfor %}
+                </select>
+
+                </div>
+            
+
+                
+                <div class="form-group">
+                    <label for="marital_status">Marital Status:</label>
+                <select id="marital_status" name="marital_status">
+                    {% for value, display in marital_status %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+
+                </div>
+                
+
+                <!-- Address Information -->
+
+                <div class="form-group">
+                    <label for="district_of_residence">District of Residence:</label>
+                    <input type="text" id="district_of_residence" name="district_of_residence">
+                    
+                </div>
+            
+
+
+                <div class="form-group">
+                    <label for="sub_county">Sub County:</label>
+                <input type="text" id="sub_county" name="sub_county" required>
+                    
+                </div>
+                
+
+                <div class="form-group">
+                    <label for="parish">Parish:</label>
+                <input type="text" id="parish" name="parish" required>
+
+                </div>
+                
+
+                <div class="form-group">
+                    <label for="village">Village:</label>
+                <input type="text" id="village" name="village" required>
+                    
+                </div>
+                
+
+                <!-- Contact Information -->
+
+                <div class="form-group">
+                    <label for="client_phone_number">Client Phone Number:</label>
+                    <input type="tel" id="client_phone_number" name="client_phone_number">
+                    
+                </div>
+            
+
+                <div class="form-group">
+                    <label for="next_of_kin_name">Next of Kin Name:</label>
+                    <input type="text" id="next_of_kin_name" name="next_of_kin_name" required>
+                    
+                </div>
+            
+
+
+                <div class="form-group">
+                    <label for="next_of_kin_phone_number">Next of Kin Phone Number:</label>
+                    <input type="tel" id="next_of_kin_phone_number" name="next_of_kin_phone_number" required>
+                    
+                </div>
+                        </div>
+
+            <div id="MedicalHistory" class="tab-content">
+                <!-- Medical History Fields -->
+                 <!-- Sexually Active -->
     <div class="form-group">
-        <label for="tribe">Tribe:</label>
-        <select id="tribe" name="tribe">
-            {% for tribe in tribes %}
-            <option value="{{ tribe.id }}">{{ tribe.name }}</option>
-            {% endfor %}
+        <label for="sexually_active">Are you sexually active?</label>
+        <input type="checkbox" id="sexually_active" name="sexually_active">
+    </div>
+
+    <!-- HIV Testing and Status Fields -->
+    <div class="form-group">
+        <label for="hts_offered">Was HIV testing and counseling offered?</label>
+        <input type="checkbox" id="hts_offered" name="hts_offered">
+    </div>
+
+    <div class="form-group">
+        <label for="hiv_tested_last_four_weeks">Have you been tested for HIV in the last four weeks?</label>
+        <input type="checkbox" id="hiv_tested_last_four_weeks" name="hiv_tested_last_four_weeks">
+    </div>
+
+    <div class="form-group">
+        <label for="hiv_tested_during_appointment">Were you tested for HIV during this appointment?</label>
+        <input type="checkbox" id="hiv_tested_during_appointment" name="hiv_tested_during_appointment">
+    </div>
+
+    <div class="form-group">
+        <label for="hiv_test_result">HIV Test Result:</label>
+        <select id="hiv_test_result" name="hiv_test_result">
+            <!-- Populate choices here -->
         </select>
-
     </div>
+
     <div class="form-group">
-        <label for="religion">Religion:</label>
-    <select id="religion" name="religion">
-        {% for religion in religions %}
-        <option value="{{ religion.id }}">{{ religion.name }}</option>
-        {% endfor %}
-    </select>
-
+        <label for="if_hiv_positive_under_care">If HIV positive, are you under care?</label>
+        <input type="checkbox" id="if_hiv_positive_under_care" name="if_hiv_positive_under_care">
     </div>
-   
 
+    <div class="form-group">
+        <label for="partner_hiv_status">Partner's HIV Status:</label>
+        <select id="partner_hiv_status" name="partner_hiv_status">
+            <!-- Populate choices here -->
+        </select>
+    </div>
+
+    <!-- Tetanus Vaccination -->
+    <div class="form-group">
+        <label for="tetanus_vaccination_td1_date">Date of First Tetanus Vaccination (TD1):</label>
+        <input type="date" id="tetanus_vaccination_td1_date" name="tetanus_vaccination_td1_date" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="tetanus_vaccination_td2_date">Date of Second Tetanus Vaccination (TD2):</label>
+        <input type="date" id="tetanus_vaccination_td2_date" name="tetanus_vaccination_td2_date" class="form-control">
+    </div>
+
+    <!-- Medical History Symptoms -->
+    <!-- ... similar fields for bleeding disorder, urethral discharge, etc... -->
+
+    <!-- Other Medical History -->
+    <div class="form-group">
+        <label for="other_medical_history_specify">Other Medical History Details:</label>
+        <textarea id="other_medical_history_specify" name="other_medical_history_specify" class="form-control"></textarea>
+    </div>
+
+    <!-- Client Undergoing Treatment -->
+    <!-- ... similar fields for hypertension, diabetes, etc... -->
+
+    <!-- Allergies -->
+    <div class="form-group">
+        <label for="local_anesthetics_allergy">Allergic to Local Anesthetics:</label>
+        <input type="checkbox" id="local_anesthetics_allergy" name="local_anesthetics_allergy">
+    </div>
+
+    <!-- ... similar fields for antiseptics allergy, food allergy, etc... -->
+
+    <!-- Physical Exam -->
+    <!-- ... similar fields for bp_systolic, bp_diastolic, etc... -->
+          
+        
+    </div>
+
+    <!-- ... similar fields for bp_diastolic, pulse, temperature, etc... -->
+
+    <!-- Consent -->
     
-    <div class="form-group">
-        <label for="marital_status">Marital Status:</label>
-    <select id="marital_status" name="marital_status">
-        {% for value, display in marital_status %}
-            <option value="{{ value }}">{{ display }}</option>
-        {% endfor %}
-    </select>
 
+    <div id="Consent" class="tab-content">
+                <!-- Consent Information Fields -->
+                <!-- Consent -->
+                <div class="form-group">
+                    <label for="client_concented">Did the client consent?</label>
+                    <input type="checkbox" id="client_concented" name="client_concented">
+                </div>
+
+                <!-- Date of Consent -->
+                <div class="form-group">
+                    <label for="date_of_consent">Date of Consent:</label>
+                    <input type="date" id="date_of_consent" name="date_of_consent" class="form-control">
+                </div>
+                
     </div>
-    
-
-    <!-- Address Information -->
+    <div id="Payments" class="tab-content">
+       <!-- Payment Information -->
+       <div class="form-group">
+        <label for="id_payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method">
+            {% for value, display in payment_method %}
+                <option value="{{ value }}">{{ display }}</option>
+            {% endfor %}
+            </select>{{ form.payment_method }}
+         </div>
+         
 
     <div class="form-group">
-        <label for="district_of_residence">District of Residence:</label>
-        <input type="text" id="district_of_residence" name="district_of_residence">
+        <label for="id_transaction_id">Transaction ID:</label>
+        <input type="date" id="transaction_id" name="transaction_id" class="form-control">
+       
+    </div>
+
+    <div class="form-group">
+        <label for="id_payment_decription">Payment Description:</label>
+        <textarea id="payment_decription" name="payment_decription" class="form-control"></textarea>
+       
+    </div>
         
+</div>
+
+            <input type="submit" value="Save Client Information" class="btn-primary">
+        </form>
     </div>
-   
+</div>
 
-
-    <div class="form-group">
-        <label for="sub_county">Sub County:</label>
-    <input type="text" id="sub_county" name="sub_county" required>
-        
-    </div>
-    
-
-    <div class="form-group">
-        <label for="parish">Parish:</label>
-    <input type="text" id="parish" name="parish" required>
-
-    </div>
-    
-
-    <div class="form-group">
-        <label for="village">Village:</label>
-    <input type="text" id="village" name="village" required>
-        
-    </div>
-    
-
-    <!-- Contact Information -->
-
-    <div class="form-group">
-        <label for="client_phone_number">Client Phone Number:</label>
-        <input type="tel" id="client_phone_number" name="client_phone_number">
-        
-    </div>
-   
-
-    <div class="form-group">
-        <label for="next_of_kin_name">Next of Kin Name:</label>
-        <input type="text" id="next_of_kin_name" name="next_of_kin_name" required>
-        
-    </div>
-   
-
-
-    <div class="form-group">
-        <label for="next_of_kin_phone_number">Next of Kin Phone Number:</label>
-        <input type="tel" id="next_of_kin_phone_number" name="next_of_kin_phone_number" required>
-        
-    </div>
-   
-
-    <!-- Save Information -->
-    <input type="submit" value="Save Client Information">
-</form>
+<script>
+    // Open the first tab by default
+    document.getElementsByClassName("tablink")[0].click();
+</script>
 
 {% endblock %}

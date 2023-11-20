@@ -41,8 +41,8 @@ class AppointmentTypeAdmin(admin.ModelAdmin):
 admin.site.register(AppointmentType, AppointmentTypeAdmin) 
 
 class MedicalHistoryAdmin(admin.ModelAdmin):
-    list_display = ('client','knows_hiv_status', 'tested_hiv_last_four_weeks', 'in_hiv_care_or_referred', 'has_allergies')
-    search_fields = ('client','knows_hiv_status', 'tested_hiv_last_four_weeks', 'in_hiv_care_or_referred', 'has_allergies')
+    list_display = ('client','sexually_active', 'hts_offered','hiv_tested_last_four_weeks')
+    search_fields = ('client','sexually_active', 'hts_offered','hiv_tested_last_four_weeks')
 
 admin.site.register(MedicalHistory, MedicalHistoryAdmin)
 

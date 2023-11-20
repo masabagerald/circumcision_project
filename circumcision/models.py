@@ -59,9 +59,97 @@ class Client(models.Model):
     client_phone_number = models.CharField(max_length=15,null=True, blank=True)
     next_of_kin_name = models.CharField(max_length=255)
     next_of_kin_phone_number = models.CharField(max_length=15,null=True, blank=True)
+
+    PAYMENT_METHODS = [
+        ('cash', 'Cash'),
+        ('mobile_money', 'Mobile Money'),
+        ('credit_card', 'Credit Card'),
+        ('paypal', 'PayPal'),
+        ('bank_transfer', 'Bank Transfer'),
+        ('others', 'others'),
+    ]
+
+    payment_method = models.CharField(max_length=30,choices=PAYMENT_METHODS, blank=True)  # e.g., 'Credit Card', 'PayPal', 'Bank Transfer'
+    transaction_id = models.CharField(max_length=100, blank=True)
+    payment_decription = models.TextField(blank=True)
  
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+class MedicalHistory(models.Model):
+    HIV_STATUS_CHOICES = [
+        ('negative', 'Negative'),
+        ('positive', 'Positive'),
+        ('inconclusive', 'Inconclusive'),
+        ('known_positive', 'Known Positive'),
+        ('unknown', 'Unknown'),
+        # Add other options as necessary
+    ]
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    sexually_active = models.BooleanField(null=True, blank=True)
+    hts_offered = models.BooleanField(null=True, blank=True)
+    hiv_tested_last_four_weeks = models.BooleanField(null=True, blank=True)
+    hiv_tested_during_appointment = models.BooleanField(default=False)
+    hiv_test_result = models.CharField(max_length=15, choices=HIV_STATUS_CHOICES, null=True, blank=True)
+    if_hiv_positive_under_care = models.BooleanField(null=True, blank=True)
+    partner_hiv_status = models.CharField(max_length=15, choices=HIV_STATUS_CHOICES, null=True, blank=True)
+    tetanus_vaccination_td1_date = models.DateField(null=True, blank=True)
+    tetanus_vaccination_td2_date = models.DateField(null=True, blank=True)
+    
+    # C2: Medical History
+    bleeding_disorder = models.BooleanField(null=True, blank=True)
+    urethral_discharge = models.BooleanField(null=True, blank=True)
+    pain_on_urination = models.BooleanField(null=True, blank=True)
+    swelling_of_scrotum = models.BooleanField(null=True, blank=True)
+    genital_ulcers = models.BooleanField(null=True, blank=True)
+    penile_warts = models.BooleanField(null=True, blank=True)
+    difficulty_in_retracting_foreskin = models.BooleanField(null=True, blank=True)
+    erectile_dysfunction = models.BooleanField(null=True, blank=True)
+    other_medical_history_specify = models.TextField(null=True, blank=True)
+    
+    # C3: Client Undergoing Treatment
+    hypertension = models.BooleanField(null=True, blank=True)
+    diabetes = models.BooleanField(null=True, blank=True)
+    anaemia = models.BooleanField(null=True, blank=True)
+    hiv_aids = models.BooleanField(null=True, blank=True)
+    other_treatment_specify = models.TextField(null=True, blank=True)
+    
+    # C4: Allergies
+    local_anesthetics_allergy = models.BooleanField(null=True, blank=True)
+    antiseptics_allergy = models.BooleanField(default=False)
+    food_allergy = models.BooleanField(default=False)
+    drug_allergy = models.BooleanField(default=False)
+    other_allergies_specify = models.TextField(null=True, blank=True)
+    
+    # C5: Physical Exam
+    bp_systolic = models.IntegerField(null=True, blank=True)
+    bp_diastolic = models.IntegerField(null=True, blank=True)
+    pulse = models.IntegerField(null=True, blank=True)
+    temperature = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    rr = models.IntegerField(null=True, blank=True)  # Respiratory rate
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    urethra_discharge = models.BooleanField(null=True, blank=True)
+    adhesions = models.BooleanField(null=True, blank=True)
+    anatomical_abnormalities = models.BooleanField(default=False)
+    balanitis = models.BooleanField(default=False)
+    genital_ulcer_disease = models.BooleanField(null=True, blank=True)
+    genital_warts = models.BooleanField(null=True, blank=True)
+    surgical_disorders = models.BooleanField(null=True, blank=True)
+    other_sti_abnormality = models.BooleanField(null=True, blank=True)
+    jiggers = models.BooleanField(null=True, blank=True)
+    other_physical_exam_specify = models.TextField(null=True, blank=True)
+    td_given_during_appointment = models.BooleanField(null=True, blank=True)
+    client_consented = models.BooleanField(null=True,default=False)
+    date_of_consent = models.DateField(null=True, blank=True)
+    consent_form = models.FileField(null=True,upload_to= "concent_forms/")
+    eligibility_after_examination = models.BooleanField(default=False)
+   
+
+    def __str__(self):
+        return f"{self.client.first_name} {self.client.last_name}'s Medical History"
+
+
 
 class CircumcisionMethod(models.Model):
     name = models.CharField(max_length=100)
@@ -102,58 +190,6 @@ class AdverseEvent(models.Model):
     
 
 
-class MedicalHistory(models.Model):
-    client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='medical_history')
-    
-    # Section C: Client Medical History
-    knows_hiv_status = models.BooleanField(default=False)
-    tested_hiv_last_four_weeks = models.BooleanField(default=False)
-    tested_hiv_this_appointment = models.BooleanField(default=False)
-    hiv_status = models.CharField(max_length=20, null=True, blank=True)  # Positive, Negative, Inconclusive, Unknown
-    in_hiv_care_or_referred = models.BooleanField(default=False)
-    partner_hiv_status = models.CharField(max_length=20, null=True, blank=True)
-    
-    # Vaccination Dates
-    date_of_td1 = models.DateField(null=True, blank=True)
-    date_of_td2 = models.DateField(null=True, blank=True)
-    
-    # Medical History Details
-    bleeding_disorder = models.BooleanField(default=False)
-    genital_ulcers = models.BooleanField(default=False)
-    urethral_discharge = models.BooleanField(default=False)
-    penile_warts = models.BooleanField(default=False)
-    swelling_of_scrotum = models.BooleanField(default=False)
-    
-    # Undergoing Treatment
-    hypertension = models.BooleanField(default=False)
-    anaemia = models.BooleanField(default=False)
-    diabetes = models.BooleanField(default=False)
-    hiv_aids = models.BooleanField(default=False)
-    other_conditions = models.TextField(null=True, blank=True)  # In case there are other conditions that are not listed
-    
-    # Allergies
-    has_allergies = models.BooleanField(default=False)
-    allergies_description = models.TextField(null=True, blank=True)  # Details about allergies if any
-    
-    # Physical Exam
-    blood_pressure = models.CharField(max_length=20, null=True, blank=True)
-    pulse = models.PositiveIntegerField(null=True, blank=True)
-    temperature = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    respiratory_rate = models.PositiveIntegerField(null=True, blank=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    urethra_discharge = models.BooleanField(default=False)
-    adhesions = models.BooleanField(default=False)
-    genital_ulcer_disease = models.BooleanField(default=False)
-    genital_warts = models.BooleanField(default=False)
-    surgical_disorders = models.BooleanField(default=False)
-    other_sti_or_abnormality = models.BooleanField(default=False)
-    open_wounds_or_recently_healed_scars = models.BooleanField(default=False)
-    jiggers = models.BooleanField(default=False)
-    other_physical_exam_conditions = models.TextField(null=True, blank=True)  # Any other condition detected in the physical exam
-
-    def __str__(self):
-        return f"Medical History for {self.client.first_name} {self.client.last_name}"
-
 class CircumcisionProcedure(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='circumcision_procedure')
     
@@ -189,7 +225,7 @@ class CircumcisionProcedure(models.Model):
 
 class VisitType(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True) 
 
     def __str__(self):
         return self.name
