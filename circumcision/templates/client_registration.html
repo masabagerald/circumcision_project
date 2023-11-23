@@ -310,7 +310,10 @@
     <div class="form-group">
         <label for="hiv_test_result">HIV Test Result:</label>
         <select id="hiv_test_result" name="hiv_test_result">
-            <!-- Populate choices here -->
+            {% for value, display in hiv_status_choices %}
+            <option value="{{ value }}">{{ display }}</option>
+            {% endfor %}
+            
         </select>
     </div>
 
@@ -322,7 +325,9 @@
     <div class="form-group">
         <label for="partner_hiv_status">Partner's HIV Status:</label>
         <select id="partner_hiv_status" name="partner_hiv_status">
-            <!-- Populate choices here -->
+            {% for value, display in hiv_status_choices %}
+            <option value="{{ value }}">{{ display }}</option>
+            {% endfor %}
         </select>
     </div>
 

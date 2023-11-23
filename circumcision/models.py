@@ -27,8 +27,7 @@ class Client(models.Model):
 
     @property
     def full_name(self):
-        return f"{self.first_name} {self.last_name}"
-   
+        return f"{self.first_name} {self.last_name}"  
 
     
     EDUCATION_CHOICES = [
@@ -59,7 +58,7 @@ class Client(models.Model):
     client_phone_number = models.CharField(max_length=15,null=True, blank=True)
     next_of_kin_name = models.CharField(max_length=255)
     next_of_kin_phone_number = models.CharField(max_length=15,null=True, blank=True)
-
+  
     PAYMENT_METHODS = [
         ('cash', 'Cash'),
         ('mobile_money', 'Mobile Money'),
@@ -67,7 +66,7 @@ class Client(models.Model):
         ('paypal', 'PayPal'),
         ('bank_transfer', 'Bank Transfer'),
         ('others', 'others'),
-    ]
+    ]    
 
     payment_method = models.CharField(max_length=30,choices=PAYMENT_METHODS, blank=True)  # e.g., 'Credit Card', 'PayPal', 'Bank Transfer'
     transaction_id = models.CharField(max_length=100, blank=True)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Client,ProcedureType,AdverseEvent,Anesthesia,FollowUpVisit,CircumcisionProcedure,Tribe,Religion    
+from .models import Client, MedicalHistory,ProcedureType,AdverseEvent,Anesthesia,FollowUpVisit,CircumcisionProcedure,Tribe,Religion    
 from django.contrib.auth.models import User
 
 class ClientForm(forms.ModelForm):
@@ -17,10 +17,13 @@ class ClientForm(forms.ModelForm):
     sub_county = forms.CharField(max_length=255, label="Sub County")
     parish = forms.CharField(max_length=255, label="Parish")
     village = forms.CharField(max_length=255, label="Village")
+    
 
     client_phone_number = forms.CharField(max_length=15, required=False, label="Client Phone Number")
     next_of_kin_name = forms.CharField(max_length=255, label="Next of Kin Name")
     next_of_kin_phone_number = forms.CharField(max_length=15, required=False, label="Next of Kin Phone Number")
+    
+    hiv_status_choices = forms.ChoiceField(choices=MedicalHistory.HIV_STATUS_CHOICES, required=False, label="HIV Status")
 
     payment_method = forms.ChoiceField(choices=Client.PAYMENT_METHODS, required=False, label="Payment Method")
     transaction_id = forms.CharField(max_length=100, required=False, label="Transaction ID")
@@ -33,7 +36,7 @@ class ClientForm(forms.ModelForm):
             'tribe', 'religion', 'marital_status', 'district_of_residence', 
             'sub_county', 'parish', 'village', 'client_phone_number', 
             'next_of_kin_name', 'next_of_kin_phone_number', 'payment_method', 
-            'transaction_id', 'payment_decription'
+            'transaction_id', 'payment_decription','hiv_status_choices'
         ]
 
 class RegisterForm(forms.ModelForm):

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from circumcision.models import Client,Surgery,FollowUpVisit,Religion,Tribe,CircumcisionProcedure
+from circumcision.models import Client, MedicalHistory,Surgery,FollowUpVisit,Religion,Tribe,CircumcisionProcedure
 
 
 from circumcision.forms import ClientForm ,RegisterForm,CircumcisionProcedureForm,FollowUpVisitForm
@@ -30,9 +30,11 @@ def list_clients(request):
 def client_regsitration(request):
     religions = Religion.objects.all()
     tribes = Tribe.objects.all()
+     
    
 
-    return render(request, 'client_registration.html', {'religions':religions,'tribes':tribes,'education_choices': Client.EDUCATION_CHOICES,'marital_status':Client.MARITAL_STATUS_CHOICES})
+    return render(request, 'client_registration.html', {'religions':religions,'tribes':tribes,'education_choices': Client.EDUCATION_CHOICES,'marital_status':Client.MARITAL_STATUS_CHOICES,
+                                                        'payment_method':Client.PAYMENT_METHODS,'hiv_status_choices':MedicalHistory.HIV_STATUS_CHOICES})
 @login_required
 def add_client(request):
     if request.method == 'POST':
@@ -42,6 +44,8 @@ def add_client(request):
             return redirect('list_clients')  # Redirect to a success page or listing page.
     else:
         form = ClientForm()
+
+        
 
     return render(request, 'client_registration.html', {'form': form})
 
