@@ -8,7 +8,7 @@ from circumcision.models import Client, MedicalHistory,Surgery,FollowUpVisit,Rel
 
 from circumcision.forms import ClientForm ,RegisterForm,CircumcisionProcedureForm,FollowUpVisitForm
 
-from .forms import RegisterForm
+from .forms import MedicalHistoryForm, RegisterForm
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
@@ -28,14 +28,21 @@ def list_clients(request):
     return render(request, 'client_list.html', {'clients': clients})
 @login_required
 def client_regsitration(request):
-    religions = Religion.objects.all()
-    tribes = Tribe.objects.all()
-     
-   
+    if request.method == 'POST':
+        client_form = ClientForm(request.POST,request.FILES)
+        medical_form = MedicalHistoryForm(request.POST)
+        if client_form.is_valid() and medical_form.is_valid():
+            client = client_form.save()
+            medical_history = medical_form.save(commit=False)
+            medical_history.client = client
+            medical_history.save()  # This saves the data to the database.
+            return redirect('list_clients')  # Redirect to a success page or listing page.
+    else:
+       client_form = ClientForm()
+       medical_form = MedicalHistoryForm()       
 
-    return render(request, 'client_registration.html', {'religions':religions,'tribes':tribes,'education_choices': Client.EDUCATION_CHOICES,'marital_status':Client.MARITAL_STATUS_CHOICES,
-                                                        'payment_method':Client.PAYMENT_METHODS,'hiv_status_choices':MedicalHistory.HIV_STATUS_CHOICES})
-@login_required
+    return render(request, 'client_registration.html', { 'client_form': client_form, 
+        'medical_form': medical_form})
 def add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
@@ -176,5 +183,33 @@ def procedure_edit(request, procedure_id):
     # Render the edit form template
     return render(request, 'clients/procedure_edit.html', {'form': form, 'procedure': procedure})
 
+def edit_client(request, client_id):
+    client = get_object_or_404(Client, pk=client_id)
 
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES, instance=client)
+        if form.is_valid():
+            form.save()
+            return redirect('patient_dashbord',client_id=client.id)  # Redirect to client detail page or client list
+    else:
+        form = ClientForm(instance=client)
+
+    return render(request, 'clients/edit_client.html', {'form': form})
+
+def edit_medical_history(request, client_id):
+    client = get_object_or_404(Client, pk=client_id)
+    medical_history, created = MedicalHistory.objects.get_or_create(client=client)
+
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST, instance=medical_history)
+        if form.is_valid():
+            form.save()
+            return redirect('patient_dashbord',client_id=client.id)  # Redirect to client detail page or client list
+    else:
+        form = MedicalHistoryForm(instance=medical_history)
+       
+    return render(request, 'clients/edit_medical_history.html', {
+        'form': form,
+        'client': client
+    })
 

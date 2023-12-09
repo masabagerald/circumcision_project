@@ -71,6 +71,12 @@ class Client(models.Model):
     payment_method = models.CharField(max_length=30,choices=PAYMENT_METHODS, blank=True)  # e.g., 'Credit Card', 'PayPal', 'Bank Transfer'
     transaction_id = models.CharField(max_length=100, blank=True)
     payment_decription = models.TextField(blank=True)
+
+    client_consented = models.BooleanField(null=True,default=False)
+    date_of_consent = models.DateField(null=True, blank=True)
+    consent_form = models.FileField(null=True,upload_to= "concent_forms/")
+    eligibility_after_examination = models.BooleanField(default=False)
+   
  
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -84,6 +90,7 @@ class MedicalHistory(models.Model):
         ('unknown', 'Unknown'),
         # Add other options as necessary
     ]
+    
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     sexually_active = models.BooleanField(null=True, blank=True)
@@ -139,11 +146,7 @@ class MedicalHistory(models.Model):
     jiggers = models.BooleanField(null=True, blank=True)
     other_physical_exam_specify = models.TextField(null=True, blank=True)
     td_given_during_appointment = models.BooleanField(null=True, blank=True)
-    client_consented = models.BooleanField(null=True,default=False)
-    date_of_consent = models.DateField(null=True, blank=True)
-    consent_form = models.FileField(null=True,upload_to= "concent_forms/")
-    eligibility_after_examination = models.BooleanField(default=False)
-   
+    
 
     def __str__(self):
         return f"{self.client.first_name} {self.client.last_name}'s Medical History"

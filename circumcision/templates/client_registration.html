@@ -118,6 +118,12 @@
     .tab-links button.active {
         background-color: #ccc;
     }
+    .custom-textarea {
+    width: 100%; /* Adjust the width as needed */
+    height: 150px; /* You can also adjust the height */
+    /* Add any other styling you need */
+}
+
 </style>
 
 <script>
@@ -152,7 +158,7 @@
             </div>
         {% endif %}
 
-        <form action="/add_client/" method="post" enctype="multipart/form-data">
+        <form action="/client_registration/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="tab-links">
@@ -167,51 +173,39 @@
                    <!-- Client Basic Information -->
                 <div class="form-group">
                     <label for="first_name">First Name:</label>
-                    <input type="text" id="first_name" name="first_name" required class="form-control">
+                    {{ client_form.first_name }}
                 </div>
             
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
-                    <input type="text" id="last_name" name="last_name" required>
+                    {{ client_form.last_name }}
 
                 </div>
             
                 <div class="form-group">
                     <label for="nin">National ID Number:</label>
-                    <input type="text" id="nin" name="nin" required>
+                    {{client_form.nin }}
                 </div>
             
                 <div class="form-group">
                     <label for="age">Age:</label>
-                    <input type="number" id="age" name="age" min="0">
+                    {{ client_form.age }}
                 </div>
             
                 <div class="form-group">
                     <label for="education_level">Education Level:</label>
-                <select id="education_level" name="education_level">
-                    {% for value, display in education_choices %}
-                        <option value="{{ value }}">{{ display }}</option>
-                    {% endfor %}
-                </select>
+                    {{ client_form.education_level }}
 
                 </div>
                 
                 <div class="form-group">
                     <label for="tribe">Tribe:</label>
-                    <select id="tribe" name="tribe">
-                        {% for tribe in tribes %}
-                        <option value="{{ tribe.id }}">{{ tribe.name }}</option>
-                        {% endfor %}
-                    </select>
+                    {{ client_form.tribe }}
 
                 </div>
                 <div class="form-group">
                     <label for="religion">Religion:</label>
-                <select id="religion" name="religion">
-                    {% for religion in religions %}
-                    <option value="{{ religion.id }}">{{ religion.name }}</option>
-                    {% endfor %}
-                </select>
+                    {{ client_form.religion }} 
 
                 </div>
             
@@ -219,11 +213,7 @@
                 
                 <div class="form-group">
                     <label for="marital_status">Marital Status:</label>
-                <select id="marital_status" name="marital_status">
-                    {% for value, display in marital_status %}
-                        <option value="{{ value }}">{{ display }}</option>
-                    {% endfor %}
-                </select>
+                    {{ client_form.marital_status }}
 
                 </div>
                 
@@ -232,7 +222,7 @@
 
                 <div class="form-group">
                     <label for="district_of_residence">District of Residence:</label>
-                    <input type="text" id="district_of_residence" name="district_of_residence">
+                    {{ client_form.district_of_residence }}
                     
                 </div>
             
@@ -240,21 +230,21 @@
 
                 <div class="form-group">
                     <label for="sub_county">Sub County:</label>
-                <input type="text" id="sub_county" name="sub_county" required>
+                    {{ client_form.sub_county }}
                     
                 </div>
                 
 
                 <div class="form-group">
                     <label for="parish">Parish:</label>
-                <input type="text" id="parish" name="parish" required>
+                    {{ client_form.parish}}
 
                 </div>
                 
 
                 <div class="form-group">
                     <label for="village">Village:</label>
-                <input type="text" id="village" name="village" required>
+                    {{ client_form.village}}
                     
                 </div>
                 
@@ -263,14 +253,15 @@
 
                 <div class="form-group">
                     <label for="client_phone_number">Client Phone Number:</label>
-                    <input type="tel" id="client_phone_number" name="client_phone_number">
+                    {{ client_form.client_phone_number}}
                     
                 </div>
             
 
                 <div class="form-group">
                     <label for="next_of_kin_name">Next of Kin Name:</label>
-                    <input type="text" id="next_of_kin_name" name="next_of_kin_name" required>
+                    
+                    {{ client_form.next_of_kin_name}}
                     
                 </div>
             
@@ -278,7 +269,7 @@
 
                 <div class="form-group">
                     <label for="next_of_kin_phone_number">Next of Kin Phone Number:</label>
-                    <input type="tel" id="next_of_kin_phone_number" name="next_of_kin_phone_number" required>
+                    {{ client_form.next_of_kin_phone_number}}
                     
                 </div>
                         </div>
@@ -288,58 +279,50 @@
                  <!-- Sexually Active -->
     <div class="form-group">
         <label for="sexually_active">Are you sexually active?</label>
-        <input type="checkbox" id="sexually_active" name="sexually_active">
+        {{ medical_form.sexually_active}}
     </div>
 
     <!-- HIV Testing and Status Fields -->
     <div class="form-group">
         <label for="hts_offered">Was HIV testing and counseling offered?</label>
-        <input type="checkbox" id="hts_offered" name="hts_offered">
+        {{ medical_form.hts_offered}}
     </div>
 
     <div class="form-group">
         <label for="hiv_tested_last_four_weeks">Have you been tested for HIV in the last four weeks?</label>
-        <input type="checkbox" id="hiv_tested_last_four_weeks" name="hiv_tested_last_four_weeks">
+        {{ medical_form.hiv_tested_last_four_weeks}}
     </div>
 
     <div class="form-group">
         <label for="hiv_tested_during_appointment">Were you tested for HIV during this appointment?</label>
-        <input type="checkbox" id="hiv_tested_during_appointment" name="hiv_tested_during_appointment">
+        {{ medical_form.hiv_tested_during_appointment}}
     </div>
 
     <div class="form-group">
         <label for="hiv_test_result">HIV Test Result:</label>
-        <select id="hiv_test_result" name="hiv_test_result">
-            {% for value, display in hiv_status_choices %}
-            <option value="{{ value }}">{{ display }}</option>
-            {% endfor %}
-            
-        </select>
+        {{ medical_form.hiv_test_result}}
     </div>
 
     <div class="form-group">
         <label for="if_hiv_positive_under_care">If HIV positive, are you under care?</label>
-        <input type="checkbox" id="if_hiv_positive_under_care" name="if_hiv_positive_under_care">
+        {{ medical_form.if_hiv_positive_under_care}}
     </div>
 
     <div class="form-group">
         <label for="partner_hiv_status">Partner's HIV Status:</label>
-        <select id="partner_hiv_status" name="partner_hiv_status">
-            {% for value, display in hiv_status_choices %}
-            <option value="{{ value }}">{{ display }}</option>
-            {% endfor %}
-        </select>
+        {{ medical_form.partner_hiv_status}}
     </div>
 
     <!-- Tetanus Vaccination -->
     <div class="form-group">
         <label for="tetanus_vaccination_td1_date">Date of First Tetanus Vaccination (TD1):</label>
-        <input type="date" id="tetanus_vaccination_td1_date" name="tetanus_vaccination_td1_date" class="form-control">
+        {{ medical_form.tetanus_vaccination_td1_date}}
     </div>
 
     <div class="form-group">
         <label for="tetanus_vaccination_td2_date">Date of Second Tetanus Vaccination (TD2):</label>
-        <input type="date" id="tetanus_vaccination_td2_date" name="tetanus_vaccination_td2_date" class="form-control">
+        {{ medical_form.tetanus_vaccination_td2_date}}
+      
     </div>
 
     <!-- Medical History Symptoms -->
@@ -348,7 +331,7 @@
     <!-- Other Medical History -->
     <div class="form-group">
         <label for="other_medical_history_specify">Other Medical History Details:</label>
-        <textarea id="other_medical_history_specify" name="other_medical_history_specify" class="form-control"></textarea>
+        {{ medical_form.other_medical_history_specify}}
     </div>
 
     <!-- Client Undergoing Treatment -->
@@ -357,10 +340,22 @@
     <!-- Allergies -->
     <div class="form-group">
         <label for="local_anesthetics_allergy">Allergic to Local Anesthetics:</label>
-        <input type="checkbox" id="local_anesthetics_allergy" name="local_anesthetics_allergy">
+        {{ medical_form.local_anesthetics}}
+    </div>
+    <div class="form-group">
+        <label for="date_of_consent">ALLergy to local Anesthetic:</label>
+        {{ medical_form.local_anesthetics_allergy}}
+    </div>
+    <div class="form-group">
+        <label for="date_of_consent">ALLergy to local Antiseptic:</label>
+        {{ medical_form.antiseptics_allergy}}
+    </div>
+    <div class="form-group">
+        <label for="date_of_consent">Other Allergies:</label>
+        {{medical_form.other_allergies_specify}}
     </div>
 
-    <!-- ... similar fields for antiseptics allergy, food allergy, etc... -->
+    
 
     <!-- Physical Exam -->
     <!-- ... similar fields for bp_systolic, bp_diastolic, etc... -->
@@ -377,38 +372,50 @@
                 <!-- Consent Information Fields -->
                 <!-- Consent -->
                 <div class="form-group">
+               
                     <label for="client_concented">Did the client consent?</label>
-                    <input type="checkbox" id="client_concented" name="client_concented">
+                    {{ client_form.client_consented}}
                 </div>
 
                 <!-- Date of Consent -->
                 <div class="form-group">
                     <label for="date_of_consent">Date of Consent:</label>
-                    <input type="date" id="date_of_consent" name="date_of_consent" class="form-control">
+                    {{ client_form.date_of_consent}}
                 </div>
+
+                <div class="form-group">
+                    <label for="date_of_consent">Concent Form:</label>
+                    {{ client_form.consent_form }}
+                </div>
+              
+                <div class="form-group">
+                    <label for="date_of_consent">Eligibility After Exermination:</label>
+                    {{ client_form.eligibility_after_examination}}
+                </div>
+                
+
+              
+                
                 
     </div>
     <div id="Payments" class="tab-content">
        <!-- Payment Information -->
        <div class="form-group">
         <label for="id_payment_method">Payment Method:</label>
-            <select id="payment_method" name="payment_method">
-            {% for value, display in payment_method %}
-                <option value="{{ value }}">{{ display }}</option>
-            {% endfor %}
-            </select>{{ form.payment_method }}
-         </div>
+        {{ client_form.payment_method }}
          
 
     <div class="form-group">
         <label for="id_transaction_id">Transaction ID:</label>
-        <input type="date" id="transaction_id" name="transaction_id" class="form-control">
+        {{ client_form.transaction_id}}
+       
        
     </div>
 
     <div class="form-group">
         <label for="id_payment_decription">Payment Description:</label>
-        <textarea id="payment_decription" name="payment_decription" class="form-control"></textarea>
+        {{ client_form.payment_decription}}
+       
        
     </div>
         

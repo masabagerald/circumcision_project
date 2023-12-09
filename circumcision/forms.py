@@ -22,12 +22,25 @@ class ClientForm(forms.ModelForm):
     client_phone_number = forms.CharField(max_length=15, required=False, label="Client Phone Number")
     next_of_kin_name = forms.CharField(max_length=255, label="Next of Kin Name")
     next_of_kin_phone_number = forms.CharField(max_length=15, required=False, label="Next of Kin Phone Number")
-    
+
     hiv_status_choices = forms.ChoiceField(choices=MedicalHistory.HIV_STATUS_CHOICES, required=False, label="HIV Status")
 
     payment_method = forms.ChoiceField(choices=Client.PAYMENT_METHODS, required=False, label="Payment Method")
     transaction_id = forms.CharField(max_length=100, required=False, label="Transaction ID")
     payment_decription = forms.CharField(widget=forms.Textarea, required=False, label="Payment Description")
+
+    client_consented = forms.BooleanField( label="Did the client consent?")
+    date_of_consent = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False,
+        label='Date of Consent'
+    )
+    consent_form  = forms.FileField( required=False, label="Consent Form")
+
+    eligibility_after_examination = forms.BooleanField( label="Did the client have eligibility after examination?")
+
+   
+   
 
     class Meta:
         model = Client
@@ -36,8 +49,47 @@ class ClientForm(forms.ModelForm):
             'tribe', 'religion', 'marital_status', 'district_of_residence', 
             'sub_county', 'parish', 'village', 'client_phone_number', 
             'next_of_kin_name', 'next_of_kin_phone_number', 'payment_method', 
-            'transaction_id', 'payment_decription','hiv_status_choices'
+            'transaction_id', 'payment_decription'
         ]
+
+
+
+
+class MedicalHistoryForm(forms.ModelForm):
+
+    
+    sexually_active = forms.BooleanField( label="Are you sexually active")
+    hts_offered = forms.BooleanField( label="Wass HTS offered")
+    hiv_tested_last_four_weeks = forms.BooleanField( label="HIV tested lasy four weeks")
+    hiv_tested_during_appointment = forms.BooleanField( label="HIV tested during appointments")
+    hiv_test_result = forms.ChoiceField(choices=MedicalHistory.HIV_STATUS_CHOICES, required=False, label="HIV Status")
+    partner_hiv_status = forms.ChoiceField(choices=MedicalHistory.HIV_STATUS_CHOICES, required=False, label="HIV Status")
+
+    if_hiv_positive_under_care = forms.BooleanField( label="HIV tested during appointments")
+
+    tetanus_vaccination_td1_date = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}),)
+    tetanus_vaccination_td2_date = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}),)
+    
+    
+    local_anesthetics_allergy = forms.BooleanField( label="ALLergy to local Anesthetic",required=False)    
+    antiseptics_allergy = forms.BooleanField( label="ALLergy to local Antiseptic",required=False)
+    other_allergies_specify = forms.CharField(widget=forms.Textarea(attrs={
+            'class': 'form-control', 
+            'rows': 5,  # Adjust the number of rows
+            'cols': 40,  # Adjust the number of columns
+            'style': 'height: 150px;'  # Alternatively, use CSS to set the height
+        }),
+        required=False)
+    
+    class Meta: 
+        model = MedicalHistory
+        fields = [
+            'sexually_active', 'hts_offered', 'hiv_tested_last_four_weeks', 
+            'hiv_tested_during_appointment', 'if_hiv_positive_under_care', 
+            'tetanus_vaccination_td1_date', 'tetanus_vaccination_td2_date', 
+            'other_medical_history_specify', 
+        ]
+
 
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

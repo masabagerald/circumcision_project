@@ -82,6 +82,8 @@
                     <p><strong>Phone Number:</strong> {{ client.client_phone_number }}</p>
                     <p><strong>District:</strong> {{ client.distict_of_residence }}</p>
                     <!-- ... add other details as needed -->
+                    <a href="{% url 'edit_client' client_id=client.id %}">Edit</a>
+                    <a href="{% url 'edit_medical_history' client.id %}" class="action-link">Edit Medical History</a>
                 </div>
             </div>
 
